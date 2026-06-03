@@ -12,7 +12,7 @@ const fetcher = (url: string) => fetch(url).then(r => r.json());
 
 function generateId() { return Math.random().toString(36).slice(2); }
 
-const N8N_FOUNDER_REVIEW_WEBHOOK = "http://168.144.71.48:5678/webhook-test/13246890-0caf-43e4-adac-1ac25f4add1b";
+const N8N_FOUNDER_REVIEW_WEBHOOK = "http://168.144.71.48:5678/webhook/13246890-0caf-43e4-adac-1ac25f4add1b";
 
 async function handleFounderDecision(draft: any, decision: string, feedback: string = "") {
   try {

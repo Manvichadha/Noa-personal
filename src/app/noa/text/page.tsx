@@ -12,7 +12,7 @@ const fetcher = (url: string) => fetch(url).then(r => r.json());
 
 function generateId() { return Math.random().toString(36).slice(2); }
 
-const N8N_NOA_REVIEW_WEBHOOK = "http://168.144.71.48:5678/webhook-test/noa-review-decision";
+const N8N_NOA_REVIEW_WEBHOOK = "http://168.144.71.48:5678/webhook/noa-review-decision";
 
 async function handleNoaDecision(draft: any, decision: string, feedback: string = "") {
   try {
