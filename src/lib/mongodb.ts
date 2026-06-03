@@ -20,20 +20,19 @@ function createClientPromise(): Promise<MongoClient> {
 }
 
 function getClientPromise(): Promise<MongoClient> {
-  if (process.env.NODE_ENV === 'development') {
-    // In dev, reuse across hot-reloads — but clear the cache if the promise rejects
-    if (!global._mongoClientPromise) {
-      global._mongoClientPromise = createClientPromise().catch((err) => {
-        // Clear the cache so the next request tries a fresh connection
-        global._mongoClientPromise = undefined;
-        throw err;
-      });
-    }
-    return global._mongoClientPromise;
+  // Always reuse a global singleton — works correctly for both:
+  //   • Development (hot-reload safe via global cache)
+  //   • Production on a persistent Node.js / PM2 server
+  // NOTE: Do NOT create a new client per invocation here — that exhausts
+  // the MongoDB Atlas free-tier 500-connection limit very quickly.
+  if (!global._mongoClientPromise) {
+    global._mongoClientPromise = createClientPromise().catch((err) => {
+      // Clear the cache so the next request tries a fresh connection
+      global._mongoClientPromise = undefined;
+      throw err;
+    });
   }
-
-  // In production, create a new client per invocation (serverless-safe)
-  return createClientPromise();
+  return global._mongoClientPromise;
 }
 
 export async function getDb() {
