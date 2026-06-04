@@ -5,6 +5,7 @@ import { ContentDraft } from '@/lib/types';
 import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
 import ConfirmDialog from '@/components/ConfirmDialog/ConfirmDialog';
 import { formatDistanceToNow } from 'date-fns';
+import { getPlatformStatus } from '@/lib/utils';
 
 interface ContentCardAction {
   label: string;
@@ -63,7 +64,12 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
 
   const platform   = draft.platform || 'X';
   const platformCfg = PLATFORM_COLORS[platform] || PLATFORM_COLORS['X'];
-  const statusCfg   = STATUS_MAP[draft.draftStatus] || { label: draft.draftStatus, color: '#9ca3af' };
+  const pStatuses = (draft as any).platformStatuses || {};
+  const vPlatform = (draft as any).virtualPlatform;
+  const effectiveStatus = vPlatform
+    ? getPlatformStatus(pStatuses[vPlatform], draft.draftStatus)
+    : draft.draftStatus;
+  const statusCfg   = STATUS_MAP[effectiveStatus] || { label: effectiveStatus, color: '#9ca3af' };
 
   const hasAgentOutputs = draft.agent1Output || draft.agent2Output || draft.agent3Output;
   const hasActions = !!(onApprove || onReject || onHardReject || onComment || onDisapprove);
