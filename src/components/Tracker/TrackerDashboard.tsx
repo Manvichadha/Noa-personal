@@ -103,10 +103,11 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
   }).slice(0, 5);
 
   return (
-    <div className="page-container" style={{ padding: '32px 48px', maxWidth: 1400 }}>
+    <div className="page-container" style={{ maxWidth: 1400 }}>
       {/* ── HEADER ── */}
-      <div className="dash-header-wrap">
-        <h1 className="dash-title">Dashboard</h1>
+      <div className="page-header">
+        <h1 className="page-title">Dashboard</h1>
+        <p className="page-subtitle">Overview of your AI content generation pipeline</p>
       </div>
 
       <div className="dashboard-grid">

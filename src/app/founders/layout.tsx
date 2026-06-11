@@ -1,6 +1,6 @@
 'use client';
 // src/app/founders/layout.tsx
-import Sidebar, { TextIcon, VideoIcon, HistoryIcon, TrackerIcon } from '@/components/Sidebar/Sidebar';
+import Sidebar, { TextIcon, VideoIcon, HistoryIcon, TrackerIcon, SparklesIcon } from '@/components/Sidebar/Sidebar';
 import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
@@ -17,6 +17,11 @@ export default function FoundersLayout({ children }: { children: React.ReactNode
       href: '/founders/tracker',
       icon: <TrackerIcon />,
       label: 'Status Tracker',
+    },
+    {
+      href: '/founders/generate',
+      icon: <SparklesIcon />,
+      label: 'Generate Content',
     },
     {
       href: '/founders/text',

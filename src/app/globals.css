@@ -134,7 +134,7 @@ a {
 }
 
 .page-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -0.5px;
@@ -1310,4 +1310,54 @@ a {
 .pill-toggle.active .pill-count {
   background: rgba(255,255,255,0.2);
   color: #fff;
+}
+
+/* ============================================================
+   AI PIPELINE BADGE TOOLTIP
+   ============================================================ */
+.ai-badge-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: default;
+}
+
+.ai-badge-icon {
+  color: var(--accent-purple, #7c3aed);
+  display: flex;
+  align-items: center;
+}
+
+.ai-badge-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px);
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateY(4px);
+  z-index: 100;
+}
+
+.ai-badge-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border: 5px solid transparent;
+  border-top-color: #1a1a2e;
+}
+
+.ai-badge-wrap:hover .ai-badge-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }

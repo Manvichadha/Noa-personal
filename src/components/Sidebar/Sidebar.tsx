@@ -68,7 +68,14 @@ const StatusIcon = () => (
   </svg>
 );
 
-export { TextIcon, VideoIcon, TrackerIcon, HistoryIcon, LogoutIcon, StatusIcon };
+const SparklesIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.937A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063A2 2 0 0 0 14.063 15.5L12.5 21.635a.5.5 0 0 1-.963 0z" />
+    <path d="M20 3v4M22 5h-4" />
+  </svg>
+);
+
+export { TextIcon, VideoIcon, TrackerIcon, HistoryIcon, LogoutIcon, StatusIcon, SparklesIcon };
 
 export default function Sidebar({ role, navItems }: SidebarProps) {
   const pathname = usePathname();

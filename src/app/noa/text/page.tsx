@@ -7,6 +7,7 @@ import EmptyState from '@/components/EmptyState/EmptyState';
 import Toast, { ToastMessage } from '@/components/Toast/Toast';
 import { CheckCircle2 } from 'lucide-react';
 import { getPlatformStatus } from '@/lib/utils';
+import { SparklesIcon } from '@/components/Sidebar/Sidebar';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
 
@@ -247,15 +248,13 @@ export default function NoaTextPage() {
   ];
 
   return (
-    <div style={{ padding: '36px 48px', maxWidth: 1400 }}>
+    <div className="page-container" style={{ maxWidth: 1400 }}>
 
       {/* Page header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <div>
-          <h1 style={{ fontSize: 26, fontWeight: 700, color: '#111', letterSpacing: '-0.4px', lineHeight: 1.2 }}>
-            Text Review
-          </h1>
-          <p style={{ fontSize: 13, color: '#aaa', marginTop: 4, fontWeight: 400 }}>
+        <div className="page-header" style={{ marginBottom: 0 }}>
+          <h1 className="page-title">Text Review</h1>
+          <p className="page-subtitle">
             {isLoading ? 'Loading…' : `${totalDrafts} draft${totalDrafts !== 1 ? 's' : ''} awaiting review`}
           </p>
         </div>
@@ -389,14 +388,26 @@ export default function NoaTextPage() {
                   {/* Job Header */}
                   <div style={{
                     background: '#fff', borderRadius: 12, border: '1px solid #eaeaea',
-                    padding: '16px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+                    padding: '16px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                    position: 'relative'
                   }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111', margin: 0 }}>
+                    {((job as any).inputType || (job as any).inputContent) && (
+                      <div className="ai-badge-wrap" style={{ position: 'absolute', top: 16, right: 20 }}>
+                        <div className="ai-badge-icon"><SparklesIcon /></div>
+                        <div className="ai-badge-tooltip">Generated via {(job as any).inputType || (job as any).contentType} workflow</div>
+                      </div>
+                    )}
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111', margin: 0, paddingRight: 32 }}>
                       {job.draftTitle || 'Draft Content'}
                     </h3>
                     <p style={{ fontSize: 13, color: '#666', marginTop: 4, margin: 0 }}>
                       {job.draftShortDescription || 'No description provided.'}
                     </p>
+                    {(job as any).inputContent && (
+                      <p style={{ fontSize: 13, color: '#111', marginTop: 4, margin: 0, fontWeight: 700 }}>
+                        Input: {(job as any).inputContent}
+                      </p>
+                    )}
                   </div>
 
                   {/* 3-column Grid for Cards */}
