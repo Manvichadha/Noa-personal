@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 
-// Raise the body-size limit so video files (up to 50 MB) can be uploaded
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '50mb',
-    },
-    responseLimit: false,
-  },
-};
+
 
 export async function POST(req: NextRequest) {
   try {
