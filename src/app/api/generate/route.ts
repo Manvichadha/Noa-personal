@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, jobId });
   } catch (err) {
     console.error('POST /api/generate error:', err);
-    return NextResponse.json({ error: 'Failed to process generation request' }, { status: 500 });
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: `Backend crash: ${errorMessage}` }, { status: 500 });
   }
 }
