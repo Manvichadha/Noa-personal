@@ -81,14 +81,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
         body: formData,
       });
 
-      if (!res.ok) {
-        let errMsg = `HTTP Error: ${res.status} ${res.statusText}`;
-        try { 
-          const data = await res.json(); 
-          if (data.error) errMsg = data.error; 
-        } catch(e) {}
-        throw new Error(errMsg);
-      }
+      if (!res.ok) throw new Error('Failed to start generation');
 
       addToast('success', 'Pipeline triggered successfully!');
       
@@ -100,8 +93,8 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
       setFile(null);
       setVideoFile(null);
 
-    } catch (err: any) {
-      addToast('error', err.message || 'Failed to trigger pipeline. Ensure the server is running.');
+    } catch (err) {
+      addToast('error', 'Failed to trigger pipeline. Ensure the server is running.');
     } finally {
       setIsSubmitting(false);
     }

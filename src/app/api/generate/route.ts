@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 
+// Raise the body-size limit so video files (up to 50 MB) can be uploaded
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '50mb',
+    },
+    responseLimit: false,
+  },
+};
+
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -56,7 +66,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, jobId });
   } catch (err) {
     console.error('POST /api/generate error:', err);
-    const errorMessage = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: `Backend crash: ${errorMessage}` }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to process generation request' }, { status: 500 });
   }
 }
