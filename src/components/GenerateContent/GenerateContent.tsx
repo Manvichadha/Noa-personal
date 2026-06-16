@@ -71,8 +71,12 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
         formData.append('inputContent', (file as File).name);
       }
       if (activeTab === 'video') {
-        if (videoFile) formData.append('file', videoFile as Blob);
-        if (videoUrlText) formData.append('inputContent', videoUrlText);
+        if (videoFile) {
+          formData.append('file', videoFile as Blob);
+          formData.append('inputContent', (videoFile as File).name);
+        } else if (videoUrlText) {
+          formData.append('inputContent', videoUrlText);
+        }
         formData.append('videoPrompt', videoPromptText);
       }
 
