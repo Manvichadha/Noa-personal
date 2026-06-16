@@ -35,6 +35,11 @@ export async function PATCH(
         updateFields[`platformFeedbacks.${key}`] = val;
       }
     }
+    if (body.platformReviewMeta) {
+      for (const [key, val] of Object.entries(body.platformReviewMeta)) {
+        updateFields[`platformReviewMeta.${key}`] = val;
+      }
+    }
 
     const result = await collection.findOneAndUpdate(
       { jobId },

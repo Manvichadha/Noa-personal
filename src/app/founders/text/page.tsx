@@ -139,12 +139,21 @@ export default function FoundersTextPage() {
   // MongoDB $set on platformStatuses.X only changes that one field —
   // the other platforms are untouched in the document.
   const getPlatformStatusesUpdates = (draft: any, targetStatus: string) => ({
-    [draft.virtualPlatform]: targetStatus,
+    [`${draft.virtualPlatform}.founderStatus`]: targetStatus,
+  });
+
+  const getPlatformReviewMetaUpdates = (draft: any, targetStatus: string) => ({
+    [`${draft.virtualPlatform}.founderStatus`]: targetStatus,
   });
 
   const handleApprove = async (draft: any) => {
     const updates = getPlatformStatusesUpdates(draft, 'approved_founders');
-    await patch(draft.jobId, { platformStatuses: updates, founderAction: 'approved' });
+    const metaUpdates = getPlatformReviewMetaUpdates(draft, 'approved');
+    await patch(draft.jobId, { 
+      platformStatuses: updates, 
+      platformReviewMeta: metaUpdates,
+      founderAction: 'approved' 
+    });
     addToast('success', `Content approved sent to SocialBee for posting ✓`);
     setApprovedSessionCount(prev => prev + 1);
     mutate();
@@ -153,8 +162,10 @@ export default function FoundersTextPage() {
 
   const handleReject = async (draft: any, feedback: string) => {
     const updates = getPlatformStatusesUpdates(draft, 'revision_requested_founders');
+    const metaUpdates = getPlatformReviewMetaUpdates(draft, 'revision_requested');
     await patch(draft.jobId, { 
       platformStatuses: updates,
+      platformReviewMeta: metaUpdates,
       platformFeedbacks: { [draft.virtualPlatform]: feedback },
       founderAction: 'commented'
     });
@@ -166,8 +177,10 @@ export default function FoundersTextPage() {
 
   const handleHardReject = async (draft: any) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_founders');
+    const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected');
     await patch(draft.jobId, { 
       platformStatuses: updates,
+      platformReviewMeta: metaUpdates,
       founderAction: 'disapproved'
     });
     addToast('info', `Content permanently rejected`);
@@ -217,7 +230,12 @@ export default function FoundersTextPage() {
       addToast('info', `Approving all ${draftsToApprove.length} draft(s)...`);
       await Promise.all(draftsToApprove.map(async d => {
         const updates = getPlatformStatusesUpdates(d, 'approved_founders');
-        await patch(d.jobId, { platformStatuses: updates, founderAction: 'approved' });
+        const metaUpdates = getPlatformReviewMetaUpdates(d, 'approved');
+        await patch(d.jobId, { 
+          platformStatuses: updates, 
+          platformReviewMeta: metaUpdates,
+          founderAction: 'approved' 
+        });
         handleFounderDecision(d, "approve");
       }));
       setApprovedSessionCount(prev => prev + draftsToApprove.length);

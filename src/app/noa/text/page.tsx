@@ -139,12 +139,20 @@ export default function NoaTextPage() {
   // MongoDB $set on platformStatuses.X only changes that one field —
   // the other platforms are untouched in the document.
   const getPlatformStatusesUpdates = (draft: any, targetStatus: string) => ({
-    [draft.virtualPlatform]: targetStatus,
+    [`${draft.virtualPlatform}.noaStatus`]: targetStatus,
+  });
+
+  const getPlatformReviewMetaUpdates = (draft: any, targetStatus: string) => ({
+    [`${draft.virtualPlatform}.noaStatus`]: targetStatus,
   });
 
   const handleApprove = async (draft: any) => {
     const updates = getPlatformStatusesUpdates(draft, 'pending_founders');
-    await patch(draft.jobId, { platformStatuses: updates });
+    const metaUpdates = getPlatformReviewMetaUpdates(draft, 'approved_by_noa');
+    await patch(draft.jobId, { 
+      platformStatuses: updates,
+      platformReviewMeta: metaUpdates 
+    });
     addToast('success', `Content approved sent to Founder Team ✓`);
     setApprovedSessionCount(prev => prev + 1);
     mutate();
@@ -153,8 +161,10 @@ export default function NoaTextPage() {
 
   const handleReject = async (draft: any, feedback: string) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_noa');
+    const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected_by_noa');
     await patch(draft.jobId, { 
       platformStatuses: updates,
+      platformReviewMeta: metaUpdates,
       platformFeedbacks: { [draft.virtualPlatform]: feedback }
     });
     addToast('info', `Feedback sent AI will regenerate with your feedback`);
@@ -165,8 +175,10 @@ export default function NoaTextPage() {
 
   const handleHardReject = async (draft: any) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_permanently');
+    const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected_permanently');
     await patch(draft.jobId, { 
       platformStatuses: updates,
+      platformReviewMeta: metaUpdates
     });
     addToast('info', `Content permanently rejected`);
     setRejectedSessionCount(prev => prev + 1);
@@ -215,7 +227,11 @@ export default function NoaTextPage() {
       addToast('info', `Approving all ${draftsToApprove.length} draft(s)...`);
       await Promise.all(draftsToApprove.map(async d => {
         const updates = getPlatformStatusesUpdates(d, 'pending_founders');
-        await patch(d.jobId, { platformStatuses: updates });
+        const metaUpdates = getPlatformReviewMetaUpdates(d, 'approved_by_noa');
+        await patch(d.jobId, { 
+          platformStatuses: updates,
+          platformReviewMeta: metaUpdates 
+        });
         handleNoaDecision(d, "approve");
       }));
       setApprovedSessionCount(prev => prev + draftsToApprove.length);
