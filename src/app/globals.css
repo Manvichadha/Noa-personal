@@ -20,8 +20,8 @@
   --accent-amber-light: #fef3c7;
 
   /* Status colours */
-  --status-pending-noa-bg: #fef3c7;
-  --status-pending-noa-text: #92400e;
+  --status-pending-noa-bg: #fef2f2;
+  --status-pending-noa-text: #991b1b;
   --status-pending-founders-bg: #dbeafe;
   --status-pending-founders-text: #1e40af;
   --status-approved-bg: #d1fae5;
@@ -293,7 +293,7 @@ a {
 }
 
 .badge-pending-noa { background: var(--status-pending-noa-bg); color: var(--status-pending-noa-text); }
-.badge-pending-noa .badge-dot { background: var(--accent-amber); }
+.badge-pending-noa .badge-dot { background: #ef4444; }
 
 .badge-pending-founders { background: var(--status-pending-founders-bg); color: var(--status-pending-founders-text); }
 .badge-pending-founders .badge-dot { background: #3b82f6; }
@@ -982,16 +982,16 @@ a {
 }
 
 .sidebar-item.active {
-  background: var(--accent-amber);
+  background: #B91C1C;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
 }
 
 .sidebar-badge {
   position: absolute;
   top: 4px;
   right: 4px;
-  background: #ef4444;
+  background: #111;
   color: #fff;
   font-size: 9px;
   font-weight: 800;

@@ -85,9 +85,9 @@ export default function FoundersVideoPage() {
         fontSize: 13, fontWeight: 600, color: '#4c1d95'
       }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
         </svg>
-        Founder Team — Final Video Approval
+        Final Video Approval
       </div>
 
       {error && (

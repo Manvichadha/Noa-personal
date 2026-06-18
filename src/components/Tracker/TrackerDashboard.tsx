@@ -4,6 +4,7 @@ import { ContentDraft, VideoDraft, AnyDraft } from '@/lib/types';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { getPlatformStatus } from '@/lib/utils';
+import { Check, X, Hourglass, PencilLine } from 'lucide-react';
 import './TrackerDashboard.css';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
@@ -223,28 +224,36 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
             <div className="action-list">
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#d1fae5', color: '#059669' }}>✓</div>
+                  <div className="action-icon-wrap" style={{ background: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Check size={14} strokeWidth={3} />
+                  </div>
                   Approved
                 </div>
                 <div className="action-item-val">{approvedCount}</div>
               </div>
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#fee2e2', color: '#ef4444' }}>✕</div>
+                  <div className="action-icon-wrap" style={{ background: '#fee2e2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <X size={14} strokeWidth={3} />
+                  </div>
                   Declined
                 </div>
                 <div className="action-item-val">{rejectedCount}</div>
               </div>
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#fef3c7', color: '#d97706' }}>⏳</div>
+                  <div className="action-icon-wrap" style={{ background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Hourglass size={14} strokeWidth={2.5} />
+                  </div>
                   Pending {role === 'noa' ? 'Noa' : 'Founders'}
                 </div>
                 <div className="action-item-val">{pendingCount}</div>
               </div>
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#e0f2fe', color: '#0284c7' }}>✎</div>
+                  <div className="action-icon-wrap" style={{ background: '#e0f2fe', color: '#0284c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <PencilLine size={14} strokeWidth={2.5} />
+                  </div>
                   Commented
                 </div>
                 <div className="action-item-val">{commentedCount}</div>

@@ -228,11 +228,11 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
         {draft.noaFeedback && (
           <div style={{ padding: '10px 20px 0' }}>
             <div style={{
-              background: '#fffbeb', borderRadius: 10,
-              padding: '10px 14px', fontSize: 12.5, color: '#78350f',
-              border: '1px solid #fde68a',
+              background: '#fef2f2', borderRadius: 10,
+              padding: '10px 14px', fontSize: 12.5, color: '#991b1b',
+              border: '1px solid #fca5a5',
             }}>
-              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#d97706', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#B91C1C', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Previous feedback
               </span>
               {draft.noaFeedback}
@@ -414,18 +414,20 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
                 onClick={() => setCommentOpen(true)}
                 style={{
                   flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #fde68a', background: '#fffbeb',
-                  fontSize: 13, fontWeight: 500, color: '#92400e',
+                  border: '1px solid #e5e5e5', background: '#fafafa',
+                  fontSize: 13, fontWeight: 500, color: '#555',
                   cursor: 'pointer', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fef3c7';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#fbbf24';
-                }}
-                onMouseLeave={e => {
                   (e.currentTarget as HTMLButtonElement).style.background = '#fffbeb';
                   (e.currentTarget as HTMLButtonElement).style.borderColor = '#fde68a';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#92400e';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#555';
                 }}
               >
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

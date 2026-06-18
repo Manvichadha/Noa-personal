@@ -145,7 +145,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
         {/* Previous feedback shown */}
         {draft.noaPromptFeedback && (
           <div style={{ padding: '0 18px 12px' }}>
-            <div style={{ background: '#fefce8', border: '1px solid #fde68a', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#92400e' }}>
+            <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#991b1b' }}>
               <strong style={{ display: 'block', marginBottom: 4, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 Previous prompt feedback
               </strong>
@@ -155,7 +155,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
         )}
         {draft.noaVideoFeedback && (
           <div style={{ padding: '0 18px 12px' }}>
-            <div style={{ background: '#fefce8', border: '1px solid #fde68a', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#92400e' }}>
+            <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#991b1b' }}>
               <strong style={{ display: 'block', marginBottom: 4, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 Previous video feedback
               </strong>
@@ -212,34 +212,200 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
             <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
               Job: <code style={{ fontSize: 11 }}>{draft.jobId}</code>
             </div>
-            <div className="card-actions">
+            <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
               {mode === 'noa_prompt' && onReject && (
-                <button className="btn btn-ghost" onClick={() => setRejectOpen(true)}>✕ Reject Prompt</button>
+                <button
+                  onClick={() => setRejectOpen(true)}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #e5e5e5', background: '#fafafa',
+                    fontSize: 13, fontWeight: 500, color: '#555',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                  Reject Prompt
+                </button>
               )}
               {mode === 'noa_prompt' && onApprove && (
-                <button className="btn btn-success" onClick={handleApprove} disabled={approving}>
-                  {approving ? 'Sending...' : '✓ Approve Prompt'}
+                <button
+                  onClick={handleApprove}
+                  disabled={approving}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #d1fae5', background: '#f0fdf4',
+                    fontSize: 13, fontWeight: 500, color: '#16a34a',
+                    cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                    opacity: approving ? 0.6 : 1,
+                  }}
+                  onMouseEnter={e => {
+                    if (!approving) {
+                      (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {approving ? 'Sending...' : 'Approve Prompt'}
                 </button>
               )}
               {mode === 'noa_video' && onReject && (
-                <button className="btn btn-ghost" onClick={() => setRejectOpen(true)}>✕ Reject Video</button>
+                <button
+                  onClick={() => setRejectOpen(true)}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #e5e5e5', background: '#fafafa',
+                    fontSize: 13, fontWeight: 500, color: '#555',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                  Reject Video
+                </button>
               )}
               {mode === 'noa_video' && onApprove && (
-                <button className="btn btn-success" onClick={handleApprove} disabled={approving}>
-                  {approving ? 'Sending...' : '✓ Approve Video'}
+                <button
+                  onClick={handleApprove}
+                  disabled={approving}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #d1fae5', background: '#f0fdf4',
+                    fontSize: 13, fontWeight: 500, color: '#16a34a',
+                    cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                    opacity: approving ? 0.6 : 1,
+                  }}
+                  onMouseEnter={e => {
+                    if (!approving) {
+                      (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {approving ? 'Sending...' : 'Approve Video'}
                 </button>
               )}
               {mode === 'founders' && onDisapprove && (
-                <button className="btn btn-ghost" style={{ color: '#ef4444', borderColor: '#fca5a5' }} onClick={() => setDisapproveOpen(true)}>
-                  ✕ Disapprove
+                <button
+                  onClick={() => setDisapproveOpen(true)}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #e5e5e5', background: '#fafafa',
+                    fontSize: 13, fontWeight: 500, color: '#555',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                  Disapprove
                 </button>
               )}
               {mode === 'founders' && onComment && (
-                <button className="btn btn-warning" onClick={() => setCommentOpen(true)}>✎ Comment</button>
+                <button
+                  onClick={() => setCommentOpen(true)}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #e5e5e5', background: '#fafafa',
+                    fontSize: 13, fontWeight: 500, color: '#555',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fffbeb';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#fde68a';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#92400e';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  Comment
+                </button>
               )}
               {mode === 'founders' && onApprove && (
-                <button className="btn btn-success" onClick={handleApprove} disabled={approving}>
-                  {approving ? 'Sending...' : '✓ Approve'}
+                <button
+                  onClick={handleApprove}
+                  disabled={approving}
+                  style={{
+                    flex: 1, padding: '9px', borderRadius: 10,
+                    border: '1px solid #d1fae5', background: '#f0fdf4',
+                    fontSize: 13, fontWeight: 500, color: '#16a34a',
+                    cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                    opacity: approving ? 0.6 : 1,
+                  }}
+                  onMouseEnter={e => {
+                    if (!approving) {
+                      (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {approving ? 'Sending...' : 'Approve'}
                 </button>
               )}
             </div>

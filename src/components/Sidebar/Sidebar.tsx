@@ -16,10 +16,10 @@ interface SidebarProps {
 }
 
 const BrandLogo = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="16" r="9" stroke="#38bdf8" strokeWidth="2.5" />
-    <circle cx="22" cy="6" r="4" fill="#38bdf8" />
-  </svg>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', paddingLeft: '4px' }}>
+    <div style={{ width: '3px', height: '16px', backgroundColor: '#B91C1C' }}></div>
+    <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VIGIL</span>
+  </div>
 );
 
 const FounderIcon = () => (
@@ -95,7 +95,7 @@ export default function Sidebar({ role, navItems }: SidebarProps) {
   // Role display
   const roleLabel = role === 'noa' ? 'Noa' : 'Founders';
   const roleInitial = role === 'noa' ? 'N' : 'F';
-  const roleColor = role === 'noa' ? '#f59e0b' : '#7c3aed';
+  const roleColor = role === 'noa' ? '#B91C1C' : '#111';
 
   const dashboardHome = role === 'noa' ? '/noa/tracker' : '/founders/tracker';
 
