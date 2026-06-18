@@ -29,6 +29,7 @@ async function handleFounderDecision(draft: any, decision: string, feedback: str
         platform: draft.virtualPlatform || draft.platform?.toLowerCase(),
         reviewerRole: "founder",
         feedback: feedback,
+        originalText: draft.finalDraft,
         reviewedAt: new Date().toISOString()
       })
     });

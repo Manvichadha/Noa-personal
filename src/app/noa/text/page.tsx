@@ -29,6 +29,7 @@ async function handleNoaDecision(draft: any, decision: string, feedback: string 
         platform: draft.virtualPlatform || draft.platform?.toLowerCase(),
         reviewerRole: "noa",
         feedback: feedback,
+        originalText: draft.finalDraft,
         reviewedAt: new Date().toISOString()
       })
     });
