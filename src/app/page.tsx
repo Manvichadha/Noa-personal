@@ -8,13 +8,9 @@ export default function LandingPage() {
       {/* ── NAVBAR ── */}
       <nav className="lp-nav">
         <div className="lp-nav-inner">
-          <Link href="/" className="lp-logo">
-            <div className="lp-logo-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <span className="lp-logo-name"></span>
+          <Link href="/" className="lp-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '4px', height: '20px', backgroundColor: '#B91C1C' }}></div>
+            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VIGIL</span>
           </Link>
 
           <ul className="lp-nav-links">
@@ -252,13 +248,9 @@ export default function LandingPage() {
       {/* ── FOOTER ── */}
       <footer className="lp-footer">
         <div className="lp-footer-inner">
-          <Link href="/" className="lp-logo">
-            <div className="lp-logo-icon" style={{ width: 30, height: 30, borderRadius: 8 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <span className="lp-logo-name" style={{ fontSize: 15 }}></span>
+          <Link href="/" className="lp-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '4px', height: '20px', backgroundColor: '#B91C1C' }}></div>
+            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VIGIL</span>
           </Link>
 
           <ul className="lp-footer-links">

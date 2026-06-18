@@ -91,13 +91,9 @@ export default function LoginPage() {
       {/* ── LEFT PANEL ── */}
       <div className="login-left">
         {/* Logo */}
-        <Link href="/" className="login-logo">
-          <div className="login-logo-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <span className="login-logo-name"></span>
+        <Link href="/" className="login-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ width: '4px', height: '22px', backgroundColor: '#B91C1C' }}></div>
+          <span style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '3px', color: '#fff', margin: 0, lineHeight: 1 }}>VIGIL</span>
         </Link>
 
         {/* Main copy */}
@@ -107,9 +103,7 @@ export default function LoginPage() {
             Welcome to the
             <span className="login-headline-accent">Pipeline</span>
           </h1>
-          <p className="login-desc">
-            Sign in to review AI-generated content, approve video prompts, and manage the full content pipeline — before anything reaches your audience.
-          </p>
+
         </div>
 
         {/* Trust badges */}
