@@ -94,6 +94,7 @@ export default function NoaTextPage() {
   const [selectedPlatform, setSelectedPlatform] = useState<'all' | 'linkedin' | 'x' | 'instagram'>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
   const [approvingAll, setApprovingAll] = useState(false);
+  const [copiedJobId, setCopiedJobId] = useState<string | null>(null);
 
   function usePersistentSessionCount(key: string) {
     const [count, setCount] = useState(0);
@@ -400,6 +401,23 @@ export default function NoaTextPage() {
 
               if (!jobLI && !jobX && !jobInsta) return null;
 
+              const handleCopyAll = async () => {
+                const parts: string[] = [];
+                if (jobLI) parts.push(`── LinkedIn ──\n${jobLI.finalDraft}`);
+                if (jobX)  parts.push(`── X (Twitter) ──\n${jobX.finalDraft}`);
+                if (jobInsta) parts.push(`── Instagram ──\n${jobInsta.finalDraft}`);
+                if (parts.length === 0) return;
+                try {
+                  await navigator.clipboard.writeText(parts.join('\n\n'));
+                  setCopiedJobId(job.jobId);
+                  setTimeout(() => setCopiedJobId(null), 2000);
+                } catch {
+                  addToast('error', 'Clipboard access denied');
+                }
+              };
+
+              const isCopied = copiedJobId === job.jobId;
+
               return (
                 <div key={job.jobId} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {/* Job Header */}
@@ -408,23 +426,99 @@ export default function NoaTextPage() {
                     padding: '16px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
                     position: 'relative'
                   }}>
+                    {/* Sparkle badge */}
                     {((job as any).inputType || (job as any).inputContent) && (
                       <div className="ai-badge-wrap" style={{ position: 'absolute', top: 16, right: 20 }}>
                         <div className="ai-badge-icon"><SparklesIcon /></div>
                         <div className="ai-badge-tooltip">Generated via {(job as any).inputType || (job as any).contentType} workflow</div>
                       </div>
                     )}
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111', margin: 0, paddingRight: 32 }}>
-                      {job.draftTitle || 'Draft Content'}
-                    </h3>
-                    <p style={{ fontSize: 13, color: '#666', marginTop: 4, margin: 0 }}>
-                      {job.draftShortDescription || 'No description provided.'}
-                    </p>
-                    {(job as any).inputContent && (
-                      <p style={{ fontSize: 13, color: '#111', marginTop: 4, margin: 0, fontWeight: 700 }}>
-                        Input: {(job as any).inputContent}
-                      </p>
-                    )}
+
+                    {/* Inline copy button — reused on whichever is the last visible row */}
+                    {(() => {
+                      const copyBtn = (
+                        <button
+                          onClick={handleCopyAll}
+                          title="Copy all platform drafts"
+                          style={{
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            padding: '5px 11px',
+                            borderRadius: 8,
+                            border: '1px solid #e4e4e4',
+                            background: isCopied ? '#f0fdf4' : '#fafafa',
+                            color: isCopied ? '#16a34a' : '#888',
+                            fontSize: 11.5,
+                            fontWeight: 500,
+                            cursor: 'pointer',
+                            letterSpacing: '-0.1px',
+                            transition: 'all 0.18s ease',
+                            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                          }}
+                          onMouseEnter={e => {
+                            if (!isCopied) {
+                              e.currentTarget.style.background = '#f5f5f5';
+                              e.currentTarget.style.color = '#444';
+                              e.currentTarget.style.borderColor = '#d0d0d0';
+                            }
+                          }}
+                          onMouseLeave={e => {
+                            if (!isCopied) {
+                              e.currentTarget.style.background = '#fafafa';
+                              e.currentTarget.style.color = '#888';
+                              e.currentTarget.style.borderColor = '#e4e4e4';
+                            }
+                          }}
+                        >
+                          {isCopied ? (
+                            <>
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                              Copied
+                            </>
+                          ) : (
+                            <>
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                              </svg>
+                              Copy all
+                            </>
+                          )}
+                        </button>
+                      );
+
+                      const hasInput = !!(job as any).inputContent;
+
+                      return (
+                        <>
+                          <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111', margin: '0 0 4px 0', paddingRight: 32 }}>
+                            {job.draftTitle || 'Draft Content'}
+                          </h3>
+
+                          {/* Short description row — carries copy btn when there is NO input line */}
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: hasInput ? 4 : 0 }}>
+                            <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
+                              {job.draftShortDescription || 'No description provided.'}
+                            </p>
+                            {!hasInput && copyBtn}
+                          </div>
+
+                          {/* Input row — carries copy btn when present */}
+                          {hasInput && (
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                              <p style={{ fontSize: 13, color: '#111', margin: 0, fontWeight: 700 }}>
+                                Input: {(job as any).inputContent}
+                              </p>
+                              {copyBtn}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
 
                   {/* 3-column Grid for Cards */}
