@@ -82,6 +82,9 @@ export default function GenerateContent() {
 
       const res = await fetch('/api/generate', {
         method: 'POST',
+        headers: {
+          'Authorization': 'Basic ' + btoa('noa:noa2026')
+        },
         body: formData,
       });
 
