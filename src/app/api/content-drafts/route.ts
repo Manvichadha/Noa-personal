@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
         { "platformStatuses.instagram.noaStatus": statusQuery },
       ];
     }
-    
+
     if (platform) query.platform = platform;
 
     // 1. Find all jobIds that match the status filter
@@ -75,9 +75,9 @@ export async function GET(req: NextRequest) {
       const base: Record<string, unknown> = { ...sorted[sorted.length - 1] } as Record<string, unknown>;
 
       // Deep-merge the per-platform objects
-      const finalDraft: Record<string, unknown>         = {};
-      const platformStatuses: Record<string, unknown>   = {};
-      const platformFeedbacks: Record<string, unknown>  = {};
+      const finalDraft: Record<string, unknown> = {};
+      const platformStatuses: Record<string, unknown> = {};
+      const platformFeedbacks: Record<string, unknown> = {};
       const platformReviewMeta: Record<string, unknown> = {};
 
       for (const doc of sorted) {
@@ -107,16 +107,16 @@ export async function GET(req: NextRequest) {
         }
       }
 
-      base.finalDraft        = finalDraft;
-      base.platformStatuses  = platformStatuses;
-      if (Object.keys(platformFeedbacks).length)  base.platformFeedbacks  = platformFeedbacks;
+      base.finalDraft = finalDraft;
+      base.platformStatuses = platformStatuses;
+      if (Object.keys(platformFeedbacks).length) base.platformFeedbacks = platformFeedbacks;
       if (Object.keys(platformReviewMeta).length) base.platformReviewMeta = platformReviewMeta;
 
       return base;
     });
 
     // Serialize _id to string
-    const serialized = merged.map((d) => ({ ...d, _id: d._id.toString() }));
+    const serialized = merged.map((d: any) => ({ ...d, _id: d._id.toString() }));
     return NextResponse.json(serialized);
   } catch (err) {
     console.error('GET /api/content-drafts error:', err);
