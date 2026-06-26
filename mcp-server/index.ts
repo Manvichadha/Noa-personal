@@ -123,7 +123,11 @@ const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
 app.use((req, res, next) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader || authHeader !== `Bearer ${MCP_API_KEY}`) {
+  const queryToken = req.query.token;
+  
+  const providedToken = authHeader ? authHeader.replace('Bearer ', '') : queryToken;
+
+  if (providedToken !== MCP_API_KEY) {
     return res.status(401).json({ error: "Unauthorized API Key" });
   }
   next();
