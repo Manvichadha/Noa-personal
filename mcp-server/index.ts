@@ -67,6 +67,12 @@ app.use(express.json());
 const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
 app.use((req, res, next) => {
+  // Skip auth for /messages because the Claude client strips query params from the POST URL.
+  // The SSE session is already authenticated via the initial GET /mcp request.
+  if (req.path === "/messages") {
+    return next();
+  }
+
   const authHeader = req.headers.authorization;
   const queryToken = req.query.token;
   const providedToken = authHeader ? authHeader.replace('Bearer ', '') : queryToken;
