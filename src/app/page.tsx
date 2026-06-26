@@ -11,7 +11,7 @@ export default function LandingPage() {
         <div className="lp-nav-inner">
           <Link href="/" className="lp-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '4px', height: '20px', backgroundColor: '#B91C1C' }}></div>
-            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VIGIL</span>
+            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VANCO</span>
           </Link>
 
           <ul className="lp-nav-links">
@@ -38,7 +38,7 @@ export default function LandingPage() {
           </div>
 
           <h1 className="lp-hero-h1">
-            Content Generation<br/>
+            Content Generation<br />
             <span className="lp-hero-gradient" style={{ background: 'none', color: '#B91C1C', WebkitTextFillColor: 'initial' }}>& Approval Agent</span>
           </h1>
 
@@ -48,34 +48,28 @@ export default function LandingPage() {
 
           <div className="lp-hero-actions">
             <Link href="/login" className="lp-btn-primary">
-              Noa Dashboard <span>→</span>
-            </Link>
-            <Link href="/login" className="lp-btn-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-              </svg>
-              Founder Team
+              Dashboard <span>→</span>
             </Link>
           </div>
 
           <div className="lp-hero-trust">
             <div className="lp-hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="20 6 9 17 4 12"/>
+                <polyline points="20 6 9 17 4 12" />
               </svg>
               N8N Integrated
             </div>
             <div className="lp-hero-trust-sep" />
             <div className="lp-hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
               Real-time Review
             </div>
             <div className="lp-hero-trust-sep" />
             <div className="lp-hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
               Higgsfield + Postiz
             </div>
@@ -87,7 +81,7 @@ export default function LandingPage() {
       <section className="lp-section" style={{ background: '#f8faff' }}>
         <div className="lp-section-inner">
           <div className="lp-section-label">The Problem We Solve</div>
-          <h2 className="lp-section-title">AI content without humans<br/><span style={{ color: '#B91C1C' }}>is a liability</span></h2>
+          <h2 className="lp-section-title">AI content without humans<br /><span style={{ color: '#B91C1C' }}>is a liability</span></h2>
           <p className="lp-section-sub">
             Publishing unreviewed AI content damages brand trust. Important edits and strategic decisions get lost without a structured review layer.
           </p>
@@ -128,7 +122,7 @@ export default function LandingPage() {
               </div>
               <div className="lp-feature-title">Text Review</div>
               <div className="lp-feature-desc">
-                Noa reviews platform-native copy for X, LinkedIn, and Instagram before it reaches founders.
+                You review platform-native copy for X, LinkedIn, and Instagram before it is published.
               </div>
             </div>
             <div className="lp-feature-card featured">
@@ -144,9 +138,9 @@ export default function LandingPage() {
               <div className="lp-feature-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <CheckSquare size={24} color="#B91C1C" strokeWidth={1.5} />
               </div>
-              <div className="lp-feature-title">Founder Approval</div>
+              <div className="lp-feature-title">Final Approval</div>
               <div className="lp-feature-desc">
-                Final gating layer — approve, comment, or disapprove with one click. Comments loop back to AI agents.
+                Approve, reject, or edit with one click. Rejections loop back to AI agents.
               </div>
             </div>
             <div className="lp-feature-card">
@@ -167,7 +161,7 @@ export default function LandingPage() {
         <div className="lp-section-inner">
           <div className="lp-section-label">How It Works</div>
           <h2 className="lp-section-title">From AI generation to published post</h2>
-          <p className="lp-section-sub" style={{ color: '#B91C1C' }}>Five agents, two review gates, one seamless pipeline.</p>
+          <p className="lp-section-sub" style={{ color: '#B91C1C' }}>Five agents, one review gate, one seamless pipeline.</p>
 
           <div className="lp-steps-grid">
             <div className="lp-step-card">
@@ -183,16 +177,16 @@ export default function LandingPage() {
               <div className="lp-step-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Eye size={28} color="#B91C1C" strokeWidth={1.5} />
               </div>
-              <div className="lp-step-title">Noa Reviews</div>
-              <div className="lp-step-desc">Noa approves or rejects with written feedback that feeds back to the AI.</div>
+              <div className="lp-step-title">You Review</div>
+              <div className="lp-step-desc">You approve or reject with written feedback that feeds back to the AI.</div>
             </div>
             <div className="lp-step-card">
               <div className="lp-step-num">Step 03</div>
               <div className="lp-step-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Trophy size={28} color="#B91C1C" strokeWidth={1.5} />
               </div>
-              <div className="lp-step-title">Founders Decide</div>
-              <div className="lp-step-desc">Founders approve, comment, or disapprove. Comments trigger another AI revision cycle.</div>
+              <div className="lp-step-title">You Decide</div>
+              <div className="lp-step-desc">You approve or reject. Rejections trigger another AI revision cycle.</div>
             </div>
             <div className="lp-step-card">
               <div className="lp-step-num">Step 04</div>
@@ -215,7 +209,7 @@ export default function LandingPage() {
           <div className="lp-dark-right">
             <h2 className="lp-dark-title">Your Pipeline, Your Control</h2>
             <p className="lp-dark-sub">
-              <span style={{ color: '#B91C1C', fontStyle: 'italic' }}>Every piece of content is gated behind human review.</span><br/><br/>
+              <span style={{ color: '#B91C1C', fontStyle: 'italic' }}>Every piece of content is gated behind human review.</span><br /><br />
               Nothing reaches your audience without explicit approval from your team.
             </p>
 
@@ -226,7 +220,7 @@ export default function LandingPage() {
                 </span>
                 <div>
                   <div className="lp-dark-card-label">Role-Based Access</div>
-                  <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>Noa and Founders see only what they need</div>
+                  <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>Access only what you need</div>
                 </div>
               </div>
               <div className="lp-dark-card">
@@ -271,14 +265,13 @@ export default function LandingPage() {
         <div className="lp-footer-inner">
           <Link href="/" className="lp-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '4px', height: '20px', backgroundColor: '#B91C1C' }}></div>
-            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VIGIL</span>
+            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VANCO</span>
           </Link>
 
           <ul className="lp-footer-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
-            <li><Link href="/login">Noa Dashboard</Link></li>
-            <li><Link href="/login">Founder Dashboard</Link></li>
+            <li><Link href="/login">Dashboard</Link></li>
           </ul>
 
           <div className="lp-footer-copy">© 2026. All rights reserved.</div>

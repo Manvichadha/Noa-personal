@@ -22,8 +22,7 @@ export async function PATCH(
     if (body.draftStatus !== undefined) updateFields.draftStatus = body.draftStatus;
     if (body.noaPromptFeedback !== undefined) updateFields.noaPromptFeedback = body.noaPromptFeedback;
     if (body.noaVideoFeedback !== undefined) updateFields.noaVideoFeedback = body.noaVideoFeedback;
-    if (body.founderFeedback !== undefined) updateFields.founderFeedback = body.founderFeedback;
-    if (body.founderAction !== undefined) updateFields.founderAction = body.founderAction;
+
     if (body.generationStage !== undefined) updateFields.generationStage = body.generationStage;
 
     const result = await collection.findOneAndUpdate(

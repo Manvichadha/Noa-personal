@@ -11,21 +11,15 @@ interface NavItem {
 }
 
 interface SidebarProps {
-  role: 'noa' | 'founders';
+  role: 'noa';
   navItems: NavItem[];
 }
 
 const BrandLogo = () => (
   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', paddingLeft: '4px' }}>
     <div style={{ width: '3px', height: '16px', backgroundColor: '#B91C1C' }}></div>
-    <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VIGIL</span>
+    <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VANCO</span>
   </div>
-);
-
-const FounderIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-  </svg>
 );
 
 const TextIcon = () => (
@@ -85,19 +79,16 @@ export default function Sidebar({ role, navItems }: SidebarProps) {
     localStorage.removeItem('noa_text_approved');
     localStorage.removeItem('noa_text_rejected');
     localStorage.removeItem('noa_text_edited');
-    localStorage.removeItem('founder_text_approved');
-    localStorage.removeItem('founder_text_rejected');
-    localStorage.removeItem('founder_text_edited');
     await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/login');
   };
 
   // Role display
-  const roleLabel = role === 'noa' ? 'Noa' : 'Founders';
-  const roleInitial = role === 'noa' ? 'N' : 'F';
-  const roleColor = role === 'noa' ? '#B91C1C' : '#111';
+  const roleLabel = 'Noa';
+  const roleInitial = 'N';
+  const roleColor = '#B91C1C';
 
-  const dashboardHome = role === 'noa' ? '/noa/tracker' : '/founders/tracker';
+  const dashboardHome = '/noa/tracker';
 
   return (
     <aside className="sidebar">

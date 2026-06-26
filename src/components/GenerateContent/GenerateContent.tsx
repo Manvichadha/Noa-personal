@@ -10,17 +10,17 @@ const UploadIcon = () => (
   </svg>
 );
 
-export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
+export default function GenerateContent() {
   const [activeTab, setActiveTab] = useState<'idea' | 'file' | 'url' | 'video'>('idea');
   const [ideaText, setIdeaText] = useState('');
   const [urlText, setUrlText] = useState('');
   const [videoUrlText, setVideoUrlText] = useState('');
   const [videoPromptText, setVideoPromptText] = useState('');
-  
+
   const [file, setFile] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -42,7 +42,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
   const handleDragLeave = () => {
     setIsDragOver(false);
   };
-  
+
   const handleFileDrop = (e: React.DragEvent, type: 'document' | 'video') => {
     e.preventDefault();
     setIsDragOver(false);
@@ -63,7 +63,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
     try {
       const formData = new FormData();
       formData.append('inputType', activeTab);
-      
+
       if (activeTab === 'idea') formData.append('inputContent', ideaText);
       if (activeTab === 'url') formData.append('inputContent', urlText);
       if (activeTab === 'file') {
@@ -88,7 +88,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
       if (!res.ok) throw new Error('Failed to start generation');
 
       addToast('success', 'Pipeline triggered successfully!');
-      
+
       // Clear inputs after successful submission
       setIdeaText('');
       setUrlText('');
@@ -97,7 +97,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
       setFile(null);
       setVideoFile(null);
 
-    } catch (err) {
+    } catch {
       addToast('error', 'Failed to trigger pipeline. Ensure the server is running.');
     } finally {
       setIsSubmitting(false);
@@ -151,15 +151,15 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
 
         {/* Content Area */}
         <div style={{ padding: '36px 40px' }}>
-          
+
           {/* IDEA TAB */}
           {activeTab === 'idea' && (
             <div style={{ animation: 'fadeIn 0.25s ease' }}>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 }}>
                 What do you want to write about?
               </label>
-              <textarea 
-                className="form-textarea" 
+              <textarea
+                className="form-textarea"
                 placeholder="e.g. Write a detailed analysis about the future of Agentic AI in 2026..."
                 value={ideaText}
                 onChange={e => setIdeaText(e.target.value)}
@@ -174,7 +174,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 }}>
                 Upload guidelines or source material
               </label>
-              <div 
+              <div
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={(e) => handleFileDrop(e, 'document')}
@@ -189,11 +189,11 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
                 }}
                 onClick={() => document.getElementById('file-upload')?.click()}
               >
-                <input 
-                  type="file" 
-                  id="file-upload" 
+                <input
+                  type="file"
+                  id="file-upload"
                   accept=".pdf,.txt,.md,.csv,.xlsx,.xls"
-                  style={{ display: 'none' }} 
+                  style={{ display: 'none' }}
                   onChange={(e) => {
                     if (e.target.files && e.target.files.length > 0) setFile(e.target.files[0]);
                   }}
@@ -217,7 +217,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 }}>
                 Website or article URL
               </label>
-              <input 
+              <input
                 type="url"
                 className="form-textarea"
                 style={{ minHeight: 'unset', height: 48, padding: '0 16px', lineHeight: '48px' }}
@@ -239,7 +239,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
                   <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 }}>
                     Video URL (YouTube / Instagram)
                   </label>
-                  <input 
+                  <input
                     type="url"
                     className="form-textarea"
                     style={{ minHeight: 'unset', height: 48, padding: '0 16px', lineHeight: '48px' }}
@@ -248,27 +248,27 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
                     onChange={e => setVideoUrlText(e.target.value)}
                   />
                 </div>
-                
+
                 <div style={{ display: 'flex', alignItems: 'center', color: 'var(--text-tertiary)', fontSize: 12, fontWeight: 600, paddingBottom: 14, letterSpacing: '0.5px' }}>
                   OR
                 </div>
 
                 <div style={{ flex: 1 }}>
                   <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 }}>
-                    Upload video file
+                    Upload video/audio file
                   </label>
-                  <button 
-                    className="btn btn-ghost" 
+                  <button
+                    className="btn btn-ghost"
                     style={{ height: 48, width: '100%', justifyContent: 'center', fontSize: 13 }}
                     onClick={() => document.getElementById('video-upload')?.click()}
                   >
                     {videoFile ? videoFile.name : 'Choose File...'}
                   </button>
-                  <input 
-                    type="file" 
-                    id="video-upload" 
+                  <input
+                    type="file"
+                    id="video-upload"
                     accept="video/*,audio/*"
-                    style={{ display: 'none' }} 
+                    style={{ display: 'none' }}
                     onChange={(e) => {
                       if (e.target.files && e.target.files.length > 0) setVideoFile(e.target.files[0]);
                     }}
@@ -279,8 +279,8 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 }}>
                 Processing prompt
               </label>
-              <textarea 
-                className="form-textarea" 
+              <textarea
+                className="form-textarea"
                 placeholder="e.g. Generate a transcript and send to mail, or generate a summary and send to Slack..."
                 value={videoPromptText}
                 onChange={e => setVideoPromptText(e.target.value)}
@@ -298,7 +298,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
           display: 'flex',
           justifyContent: 'flex-end',
         }}>
-          <button 
+          <button
             onClick={handleSubmit}
             disabled={isSubmitting}
             style={{
@@ -325,7 +325,7 @@ export default function GenerateContent({ role }: { role: 'noa' | 'founder' }) {
           </button>
         </div>
       </div>
-      
+
       <Toast toasts={toasts} onRemove={removeToast} />
     </div>
   );

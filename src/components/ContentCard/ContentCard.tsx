@@ -21,7 +21,7 @@ interface ContentCardProps {
   onHardReject?: () => Promise<void>;
   onComment?: (feedback: string) => Promise<void>;
   onDisapprove?: () => Promise<void>;
-  mode: 'noa' | 'founders';
+  mode: 'noa';
 }
 
 const PLATFORM_COLORS: Record<string, { dot: string; text: string; label: string }> = {
@@ -33,16 +33,14 @@ const PLATFORM_COLORS: Record<string, { dot: string; text: string; label: string
 const STATUS_MAP: Record<string, { label: string; color: string }> = {
   ready_for_noa_review:        { label: 'Ready for review', color: '#f59e0b' },
   pending_noa:                 { label: 'Pending review',   color: '#f59e0b' },
-  pending_founders:            { label: 'Approved by Noa',  color: '#3b82f6' },
-  approved_founders:           { label: 'Approved',         color: '#10b981' },
+  approved_noa:                { label: 'Approved',         color: '#10b981' },
   rejected_noa:                { label: 'Rejected',         color: '#ef4444' },
   rejected_permanently:        { label: 'Rejected',         color: '#ef4444' },
-  rejected_founders:           { label: 'Rejected',         color: '#ef4444' },
-  revision_requested_founders: { label: 'Revision',         color: '#ec4899' },
   posted:                      { label: 'Posted',           color: '#14b8a6' },
   scheduled:                   { label: 'Scheduled',        color: '#8b5cf6' },
   formatting_parse_failed:     { label: 'Formatting Error', color: '#f43f5e' },
 };
+
 
 export default function ContentCard({ draft, onApprove, onReject, onHardReject, onComment, onDisapprove, mode }: ContentCardProps) {
   const [rejectOpen, setRejectOpen]     = useState(false);
@@ -64,8 +62,8 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
 
   const platform   = draft.platform || 'X';
   const platformCfg = PLATFORM_COLORS[platform] || PLATFORM_COLORS['X'];
-  const pStatuses = (draft as any).platformStatuses || {};
-  const vPlatform = (draft as any).virtualPlatform;
+  const pStatuses = (draft as Record<string, unknown>).platformStatuses || {};
+  const vPlatform = (draft as Record<string, unknown>).virtualPlatform;
   const effectiveStatus = vPlatform
     ? getPlatformStatus(pStatuses[vPlatform], draft.draftStatus)
     : draft.draftStatus;
@@ -74,14 +72,14 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
   const hasAgentOutputs = draft.agent1Output || draft.agent2Output || draft.agent3Output;
   const hasActions = !!(onApprove || onReject || onHardReject || onComment || onDisapprove);
 
-  const extractText = (val: any): string => {
+  const extractText = (val: unknown): string => {
     if (!val) return '';
     if (typeof val === 'string') return val;
     if (typeof val !== 'object') return String(val);
-    const clean = { ...(val as any) };
+    const clean = { ...(val as Record<string, unknown>) };
     delete clean.agentName; delete clean.jobId;
     delete clean.contentType; delete clean.status; delete clean.timestamp;
-    const gather = (obj: any): string[] => {
+    const gather = (obj: Record<string, unknown>): string[] => {
       if (typeof obj === 'string') return [obj];
       if (typeof obj !== 'object' || !obj) return [];
       let r: string[] = [];
@@ -208,21 +206,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
           </div>
         </div>
 
-        {/* Founder feedback */}
-        {draft.founderFeedback && (
-          <div style={{ padding: '10px 20px 0' }}>
-            <div style={{
-              background: '#f0f7ff', borderRadius: 10,
-              padding: '10px 14px', fontSize: 12.5, color: '#1e40af',
-              border: '1px solid #dbeafe',
-            }}>
-              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Founder comment
-              </span>
-              {draft.founderFeedback}
-            </div>
-          </div>
-        )}
+
 
         {/* Previous Noa feedback */}
         {draft.noaFeedback && (
@@ -354,89 +338,6 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
               </button>
             )}
             {mode === 'noa' && onApprove && (
-              <button
-                onClick={handleApprove}
-                disabled={approving}
-                style={{
-                  flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #d1fae5', background: '#f0fdf4',
-                  fontSize: 13, fontWeight: 500, color: '#16a34a',
-                  cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-                  opacity: approving ? 0.6 : 1,
-                }}
-                onMouseEnter={e => {
-                  if (!approving) {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
-                  }
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
-                }}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                {approving ? 'Approving…' : 'Approve'}
-              </button>
-            )}
-            {mode === 'founders' && onDisapprove && (
-              <button
-                onClick={() => setDisapproveOpen(true)}
-                style={{
-                  flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #e5e5e5', background: '#fafafa',
-                  fontSize: 13, fontWeight: 500, color: '#555',
-                  cursor: 'pointer', transition: 'all 0.15s',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#555';
-                }}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-                Disapprove
-              </button>
-            )}
-            {mode === 'founders' && onComment && (
-              <button
-                onClick={() => setCommentOpen(true)}
-                style={{
-                  flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #e5e5e5', background: '#fafafa',
-                  fontSize: 13, fontWeight: 500, color: '#555',
-                  cursor: 'pointer', transition: 'all 0.15s',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fffbeb';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#fde68a';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#92400e';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#555';
-                }}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-                Comment
-              </button>
-            )}
-            {mode === 'founders' && onApprove && (
               <button
                 onClick={handleApprove}
                 disabled={approving}

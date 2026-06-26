@@ -6,24 +6,18 @@ import Link from 'next/link';
 import './login.css';
 
 // Hardcoded credentials — replace with env vars or DB auth when ready
-const CREDENTIALS: Record<string, { password: string; role: 'noa' | 'founder_team'; redirect: string }> = {
+const CREDENTIALS = {
   noa: {
     password: 'noa2026',
     role: 'noa',
     redirect: '/noa/tracker',
   },
-  founders: {
-    password: 'founders2026',
-    role: 'founder_team',
-    redirect: '/founders/tracker',
-  },
 };
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState('noa');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState<'noa' | 'founders'>('noa');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,7 +49,7 @@ export default function LoginPage() {
         return;
       }
 
-      setSuccess(`Welcome back! Redirecting to ${data.role === 'noa' ? 'Noa' : 'Founder'} dashboard...`);
+      setSuccess('Welcome back, Noa! Redirecting...');
       setTimeout(() => router.push(data.redirect), 800);
     } catch {
       setError('Something went wrong. Please try again.');
@@ -64,19 +58,19 @@ export default function LoginPage() {
     }
   };
 
-  const handleQuickAccess = async (user: 'noa' | 'founders') => {
+  const handleQuickAccess = async () => {
     setLoading(true);
     setError('');
-    const cred = CREDENTIALS[user];
+    const cred = CREDENTIALS.noa;
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, password: cred.password }),
+        body: JSON.stringify({ username: 'noa', password: cred.password }),
       });
       const data = await res.json();
       if (res.ok) {
-        setSuccess(`Signing in as ${user === 'noa' ? 'Noa' : 'Founder Team'}...`);
+        setSuccess('Signing in as Noa...');
         setTimeout(() => router.push(data.redirect), 600);
       }
     } catch {
@@ -93,7 +87,7 @@ export default function LoginPage() {
         {/* Logo */}
         <Link href="/" className="login-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ width: '4px', height: '22px', backgroundColor: '#B91C1C' }}></div>
-          <span style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '3px', color: '#fff', margin: 0, lineHeight: 1 }}>VIGIL</span>
+          <span style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '3px', color: '#fff', margin: 0, lineHeight: 1 }}>VANCO</span>
         </Link>
 
         {/* Main copy */}
@@ -135,57 +129,17 @@ export default function LoginPage() {
           <h2 className="login-form-title">Sign In</h2>
           <p className="login-form-subtitle">Access your content review dashboard</p>
 
-          {/* Role selector */}
-          <div style={{ marginBottom: 20 }}>
-            <span className="login-field-label" style={{ display: 'block', marginBottom: 10 }}>Select Role</span>
-            <div className="login-role-select">
-              <label className="login-role-option">
-                <input
-                  type="radio"
-                  name="role"
-                  value="noa"
-                  checked={selectedRole === 'noa'}
-                  onChange={() => { setSelectedRole('noa'); setUsername('noa'); }}
-                />
-                <div className="login-role-label">
-                  <div>
-                    <div className="login-role-name">Noa</div>
-                    <div className="login-role-desc">Content Manager</div>
-                  </div>
-                </div>
-              </label>
-              <label className="login-role-option">
-                <input
-                  type="radio"
-                  name="role"
-                  value="founders"
-                  checked={selectedRole === 'founders'}
-                  onChange={() => { setSelectedRole('founders'); setUsername('founders'); }}
-                />
-                <div className="login-role-label">
-                  <div>
-                    <div className="login-role-name">Founders</div>
-                    <div className="login-role-desc">Final Approval</div>
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
+
 
           <form onSubmit={handleLogin}>
             {/* Username */}
             <div className="login-field">
               <label className="login-field-label">Username</label>
               <div className="login-input-wrap">
-                <span className="login-input-icon">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                  </svg>
-                </span>
                 <input
                   className="login-input"
                   type="text"
-                  placeholder={selectedRole === 'noa' ? 'noa' : 'founders'}
+                  placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   autoComplete="username"
@@ -197,15 +151,10 @@ export default function LoginPage() {
             <div className="login-field">
               <label className="login-field-label">Password</label>
               <div className="login-input-wrap">
-                <span className="login-input-icon">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
-                  </svg>
-                </span>
                 <input
                   className="login-input"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
@@ -276,29 +225,16 @@ export default function LoginPage() {
 
           {/* Quick access */}
           <div className="login-quick-grid">
-            <button className="login-quick-btn" onClick={() => handleQuickAccess('noa')} disabled={loading}>
-              Noa Dashboard
-            </button>
-            <button className="login-quick-btn" onClick={() => handleQuickAccess('founders')} disabled={loading}>
-              Founders Dashboard
+            <button className="login-quick-btn" onClick={() => handleQuickAccess()} disabled={loading}>
+              Quick Sign In as Noa
             </button>
           </div>
 
           {/* Credentials hint */}
           <div className="login-credentials-hint">
-            <div className="login-credentials-hint-title">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-              Dev credentials
-            </div>
             <div className="login-credentials-hint-row">
-              <span>Noa</span>
+              <span style={{ color: '#8e8e93' }}>Demo Account</span>
               <span><code>noa</code> / <code>noa2026</code></span>
-            </div>
-            <div className="login-credentials-hint-row">
-              <span>Founders</span>
-              <span><code>founders</code> / <code>founders2026</code></span>
             </div>
           </div>
         </div>

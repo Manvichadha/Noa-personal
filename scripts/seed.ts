@@ -15,7 +15,7 @@ if (!uri) {
   process.exit(1);
 }
 
-const now = new Date().toISOString();
+
 const ago = (minutes: number) => new Date(Date.now() - minutes * 60 * 1000).toISOString();
 
 const contentDrafts = [

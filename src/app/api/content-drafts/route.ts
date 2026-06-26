@@ -14,32 +14,25 @@ export async function GET(req: NextRequest) {
     const collection = db.collection('content_drafts');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const query: Record<string, any> = {};
+    const query: Record<string, unknown> = {};
 
     if (status) {
       const statuses = status.split(',').map((s) => s.trim());
-      const expandedStatuses = [...statuses];
-      // Aliases: map dashboard status names ↔ n8n/legacy status names
-      if (statuses.includes('ready_for_noa_review')) expandedStatuses.push('pending_noa_review');
-      if (statuses.includes('pending_founders'))      expandedStatuses.push('approved', 'approved_by_noa', 'pending_founder_review');
-      if (statuses.includes('rejected_noa'))          expandedStatuses.push('noa_edit_requested');
-      if (statuses.includes('rejected_permanently'))  expandedStatuses.push('rejected', 'rejected_by_noa');
-      if (statuses.includes('approved_founders'))     expandedStatuses.push('approved', 'approved_by_founder');
-      if (statuses.includes('rejected_founders'))     expandedStatuses.push('rejected', 'rejected_by_founder');
+      if (statuses.includes('ready_for_noa_review')) statuses.push('pending_noa_review');
+      if (statuses.includes('approved_noa')) statuses.push('approved_by_noa', 'approved');
+      if (statuses.includes('rejected_permanently')) statuses.push('rejected_by_noa', 'rejected');
+      if (statuses.includes('rejected_noa')) statuses.push('noa_edit_requested', 'edit_requested');
 
-      const statusQuery = expandedStatuses.length === 1 ? expandedStatuses[0] : { $in: expandedStatuses };
+      const statusQuery = statuses.length === 1 ? statuses[0] : { $in: statuses };
 
       query.$or = [
         { draftStatus: statusQuery },
         { "platformStatuses.linkedin": statusQuery },
         { "platformStatuses.linkedin.noaStatus": statusQuery },
-        { "platformStatuses.linkedin.founderStatus": statusQuery },
         { "platformStatuses.x": statusQuery },
         { "platformStatuses.x.noaStatus": statusQuery },
-        { "platformStatuses.x.founderStatus": statusQuery },
         { "platformStatuses.instagram": statusQuery },
         { "platformStatuses.instagram.noaStatus": statusQuery },
-        { "platformStatuses.instagram.founderStatus": statusQuery },
       ];
     }
     
@@ -79,20 +72,20 @@ export async function GET(req: NextRequest) {
       );
 
       // Base = most recently updated doc (scalar metadata)
-      const base: any = { ...sorted[sorted.length - 1] };
+      const base: Record<string, unknown> = { ...sorted[sorted.length - 1] } as Record<string, unknown>;
 
       // Deep-merge the per-platform objects
-      const finalDraft: Record<string, any>         = {};
-      const platformStatuses: Record<string, any>   = {};
-      const platformFeedbacks: Record<string, any>  = {};
-      const platformReviewMeta: Record<string, any> = {};
+      const finalDraft: Record<string, unknown>         = {};
+      const platformStatuses: Record<string, unknown>   = {};
+      const platformFeedbacks: Record<string, unknown>  = {};
+      const platformReviewMeta: Record<string, unknown> = {};
 
       for (const doc of sorted) {
         if (doc.finalDraft && typeof doc.finalDraft === 'object') {
           for (const [platform, content] of Object.entries(doc.finalDraft)) {
             if (content) {
               const isObj = typeof content === 'object';
-              const isEmptyStr = isObj && ((content as any).postText === '' || (content as any).caption === '');
+              const isEmptyStr = isObj && ((content as Record<string, unknown>).postText === '' || (content as Record<string, unknown>).caption === '');
               if (!isEmptyStr) finalDraft[platform] = content;
             }
           }
@@ -107,8 +100,8 @@ export async function GET(req: NextRequest) {
             if (fb) platformFeedbacks[platform] = fb;
           }
         }
-        if ((doc as any).platformReviewMeta && typeof (doc as any).platformReviewMeta === 'object') {
-          for (const [platform, meta] of Object.entries((doc as any).platformReviewMeta)) {
+        if ((doc as Record<string, unknown>).platformReviewMeta && typeof (doc as Record<string, unknown>).platformReviewMeta === 'object') {
+          for (const [platform, meta] of Object.entries((doc as Record<string, unknown>).platformReviewMeta as Record<string, unknown>)) {
             if (meta) platformReviewMeta[platform] = meta;
           }
         }

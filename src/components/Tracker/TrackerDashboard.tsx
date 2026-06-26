@@ -9,13 +9,13 @@ import './TrackerDashboard.css';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
 
-export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) {
+export default function TrackerDashboard() {
   const { data: textData } = useSWR<ContentDraft[]>('/api/content-drafts', fetcher, { refreshInterval: 30000 });
   const { data: videoData } = useSWR<VideoDraft[]>('/api/video-drafts', fetcher, { refreshInterval: 30000 });
 
-  const textItems: any[] = [];
+  const textItems: Record<string, unknown>[] = [];
   if (Array.isArray(textData)) {
-    textData.forEach((d: any) => {
+    textData.forEach((d: ContentDraft) => {
       const p = d.platformStatuses || {};
       if (d.finalDraft?.linkedin) {
         textItems.push({ ...d, _type: 'text', draftStatus: getPlatformStatus(p.linkedin, d.draftStatus), platform: 'LinkedIn', jobId: d.jobId + '-li' });
@@ -31,7 +31,7 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
 
   const allItems = [
     ...textItems,
-    ...(Array.isArray(videoData) ? videoData.map((d: any) => ({ ...d, _type: 'video' as const })) : []),
+    ...(Array.isArray(videoData) ? videoData.map((d: VideoDraft) => ({ ...d, _type: 'video' as const })) : []),
   ].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
   let pendingCount = 0;
@@ -39,41 +39,22 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
   let rejectedCount = 0;
   let commentedCount = 0;
 
-  if (role === 'noa') {
-    pendingCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s.includes('pending_noa') || s === 'ready_for_noa_review' || s.includes('generating');
-    }).length;
-    approvedCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return ['pending_founders', 'approved_founders', 'posted'].includes(s);
-    }).length;
-    rejectedCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s.includes('rejected_permanently') || s === 'rejected_founders';
-    }).length;
-    commentedCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s.includes('rejected_noa') || s === 'revision_requested_founders';
-    }).length;
-  } else {
-    pendingCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s === 'pending_founders';
-    }).length;
-    approvedCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s === 'approved_founders' || s === 'posted';
-    }).length;
-    rejectedCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s === 'rejected_founders';
-    }).length;
-    commentedCount = allItems.filter(item => {
-      const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-      return s === 'revision_requested_founders';
-    }).length;
-  }
+  pendingCount = allItems.filter(item => {
+    const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
+    return s.includes('pending_noa') || s === 'ready_for_noa_review' || s.includes('generating');
+  }).length;
+  approvedCount = allItems.filter(item => {
+    const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
+    return s === 'approved_noa' || s === 'posted';
+  }).length;
+  rejectedCount = allItems.filter(item => {
+    const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
+    return s.includes('rejected_permanently');
+  }).length;
+  commentedCount = allItems.filter(item => {
+    const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
+    return s.includes('rejected_noa');
+  }).length;
 
   const totalDrafts = pendingCount + approvedCount + rejectedCount + commentedCount;
 
@@ -87,20 +68,13 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
 
   const topRecent = allItems.filter(item => {
     const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
-    if (role === 'noa') {
-      return s.includes('pending_noa') || 
-             s === 'ready_for_noa_review' ||
-             s.includes('generating') || 
-             ['pending_founders', 'approved_founders', 'posted', 'revision_requested_founders'].includes(s) ||
-             s.includes('rejected_noa') ||
-             s.includes('rejected_permanently');
-    } else {
-      return s === 'pending_founders' ||
-             s === 'approved_founders' || 
-             s === 'posted' ||
-             s === 'rejected_founders' ||
-             s === 'revision_requested_founders';
-    }
+    return s.includes('pending_noa') || 
+           s === 'ready_for_noa_review' ||
+           s.includes('generating') || 
+           s === 'approved_noa' ||
+           s === 'posted' ||
+           s.includes('rejected_noa') ||
+           s.includes('rejected_permanently');
   }).slice(0, 5);
 
   return (
@@ -171,7 +145,7 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
           <div className="recent-card">
             <div className="recent-header">
               <div className="recent-title">Recent Drafts</div>
-              <Link href={role === 'noa' ? "/noa/text" : "/founders/text"} className="recent-view-all">View all ❯</Link>
+              <Link href="/noa/text" className="recent-view-all">View all ❯</Link>
             </div>
             
             <div className="recent-list">
@@ -182,12 +156,10 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
                 const s = typeof item.draftStatus === 'string' ? item.draftStatus : '';
                 let badgeClass = 'pending';
                 let badgeLabel = 'PENDING';
-                if (s === 'approved_founders' || s === 'posted') {
+                if (s === 'approved_noa' || s === 'posted') {
                   badgeClass = 'ready'; badgeLabel = 'APPROVED';
                 } else if (s.includes('reject')) {
                   badgeClass = 'error'; badgeLabel = 'REJECTED';
-                } else if (s === 'revision_requested_founders') {
-                  badgeClass = 'commented'; badgeLabel = 'COMMENTED';
                 }
 
                 const draftName = item._type === 'text' 
@@ -195,7 +167,7 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
                   : (s.includes('prompt') ? 'Video Prompt' : 'Video Draft');
 
                 return (
-                  <Link href={item._type === 'text' ? (role === 'noa' ? '/noa/text' : '/founders/text') : (role === 'noa' ? '/noa/video' : '/founders/video')} key={item.jobId} className="recent-item" style={{ textDecoration: 'none' }}>
+                  <Link href={item._type === 'text' ? '/noa/text' : '/noa/video'} key={item.jobId} className="recent-item" style={{ textDecoration: 'none' }}>
                     <div className="recent-item-left">
                       <div className="recent-item-icon">{initial}</div>
                       <div>
@@ -245,7 +217,7 @@ export default function TrackerDashboard({ role }: { role: 'noa' | 'founder' }) 
                   <div className="action-icon-wrap" style={{ background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Hourglass size={14} strokeWidth={2.5} />
                   </div>
-                  Pending {role === 'noa' ? 'Noa' : 'Founders'}
+                  Pending Noa
                 </div>
                 <div className="action-item-val">{pendingCount}</div>
               </div>

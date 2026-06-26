@@ -21,8 +21,6 @@ export async function PATCH(
 
     if (body.draftStatus !== undefined) updateFields.draftStatus = body.draftStatus;
     if (body.noaFeedback !== undefined) updateFields.noaFeedback = body.noaFeedback;
-    if (body.founderFeedback !== undefined) updateFields.founderFeedback = body.founderFeedback;
-    if (body.founderAction !== undefined) updateFields.founderAction = body.founderAction;
     if (body.generationStage !== undefined) updateFields.generationStage = body.generationStage;
 
     if (body.platformStatuses) {
@@ -57,8 +55,8 @@ export async function PATCH(
     if (body.platformStatuses && !body.draftStatus) {
       const allDocs = await collection.find({ jobId }).sort({ updatedAt: -1 }).toArray();
       
-      const mergedFD: Record<string, any> = {};
-      const mergedPS: Record<string, any> = {};
+      const mergedFD: Record<string, unknown> = {};
+      const mergedPS: Record<string, unknown> = {};
       
       // Merge from oldest to newest
       for (const doc of allDocs.reverse()) {
@@ -83,27 +81,18 @@ export async function PATCH(
         platformKeys.add(k);
       }
 
-      const resolveStatus = (v: any): string => {
+      const resolveStatus = (v: unknown): string => {
         if (!v) return 'ready_for_noa_review'; // no entry = still pending
         if (typeof v === 'string') {
-          if (v === 'noa_edit_requested' || v === 'pending_noa_review') return 'ready_for_noa_review';
+          if (v === 'pending_noa_review') return 'ready_for_noa_review';
           return v;
         }
-        if (typeof v === 'object') {
-          if (v.founderStatus === 'approved' || v.founderStatus === 'approved_by_founder') return 'approved_founders';
-          if (v.founderStatus === 'rejected' || v.founderStatus === 'rejected_by_founder') return 'rejected_founders';
-          if (v.founderStatus === 'revision_requested' || v.founderStatus === 'commented') return 'revision_requested_founders';
-          if (v.founderStatus && v.founderStatus !== 'not_started') return v.founderStatus;
-
-          if (v.postingStatus === 'posted') return 'posted';
-          if (v.postingStatus === 'scheduled') return 'scheduled';
-
-          if (v.noaStatus === 'pending_noa_review') return 'ready_for_noa_review';
-          if (v.noaStatus === 'approved' || v.noaStatus === 'approved_by_noa') return 'pending_founders';
-          if (v.noaStatus === 'rejected' || v.noaStatus === 'rejected_by_noa') return 'rejected_noa';
-          if (v.noaStatus === 'edit_requested' || v.noaStatus === 'noa_edit_requested') return 'rejected_noa';
-          if (v.noaStatus === 'rejected_permanently') return 'rejected_permanently';
-          if (v.noaStatus) return v.noaStatus;
+        if (typeof v === 'object' && v !== null) {
+          const val = v as Record<string, string>;
+          if (val.postingStatus === 'posted') return 'posted';
+          if (val.postingStatus === 'scheduled') return 'scheduled';
+          if (val.noaStatus === 'pending_noa_review') return 'ready_for_noa_review';
+          if (val.noaStatus) return val.noaStatus;
         }
         return 'ready_for_noa_review';
       };
@@ -114,10 +103,7 @@ export async function PATCH(
       if (allStatuses.length > 0) {
         if (allStatuses.includes('ready_for_noa_review')) derivedStatus = 'ready_for_noa_review';
         else if (allStatuses.includes('rejected_noa')) derivedStatus = 'rejected_noa';
-        else if (allStatuses.includes('revision_requested_founders')) derivedStatus = 'revision_requested_founders';
-        else if (allStatuses.includes('pending_founders')) derivedStatus = 'pending_founders';
-        else if (allStatuses.includes('rejected_founders')) derivedStatus = 'rejected_founders';
-        else if (allStatuses.includes('approved_founders')) derivedStatus = 'approved_founders';
+        else if (allStatuses.includes('approved_noa')) derivedStatus = 'approved_noa';
         else if (allStatuses.includes('posted')) derivedStatus = 'posted';
         else derivedStatus = allStatuses[0]; 
       }

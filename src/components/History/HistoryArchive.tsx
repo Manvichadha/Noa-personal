@@ -1,5 +1,5 @@
 'use client';
-// src/app/founders/history/page.tsx
+// src/components/History/HistoryArchive.tsx
 import { useState } from 'react';
 import useSWR from 'swr';
 import { ContentDraft, VideoDraft } from '@/lib/types';
@@ -12,51 +12,39 @@ import { getPlatformStatus } from '@/lib/utils';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
 
-const FOUNDER_ACTION_CONFIG: Record<string, { label: string; className: string; icon: string }> = {
-  approved:    { label: 'Approved',    className: 'founder-action-approved',    icon: '✓' },
-  commented:   { label: 'Commented',   className: 'founder-action-commented',   icon: '✎' },
-  disapproved: { label: 'Disapproved', className: 'founder-action-disapproved', icon: '✕' },
-};
+// Noa is the final decision maker — history shows everything she has acted on
+const NOA_STATUSES = 'rejected_permanently,rejected_noa,approved_noa,posted';
 
-export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'founder' }) {
+export default function HistoryArchive({ role }: { role?: string }) {
   const [typeFilter, setTypeFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [platformFilter, setPlatformFilter] = useState('all');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // Founder sees items that are fully resolved by Founders or commented by Founders
-  const FOUNDER_STATUSES = 'approved_founders,rejected_founders,posted,revision_requested_founders';
-  
-  // Noa sees items that Noa has resolved (approved by Noa -> goes to Founders, or rejected by Noa)
-  // This includes things pending founders, and things fully resolved by founders.
-  const NOA_STATUSES = 'rejected_permanently,rejected_noa,pending_founders,revision_requested_founders,approved_founders,rejected_founders,posted';
-
-  const fetchStatuses = role === 'noa' ? NOA_STATUSES : FOUNDER_STATUSES;
-  const statusArray = fetchStatuses.split(',');
+  const statusArray = NOA_STATUSES.split(',');
 
   const { data: textData, isLoading: textLoading } = useSWR<ContentDraft[]>(
-    `/api/content-drafts?status=${fetchStatuses}`,
+    `/api/content-drafts?status=${NOA_STATUSES}`,
     fetcher,
     { refreshInterval: 10000 }
   );
 
   const { data: videoData, isLoading: videoLoading } = useSWR<VideoDraft[]>(
-    `/api/video-drafts?status=${fetchStatuses}`,
+    `/api/video-drafts?status=${NOA_STATUSES}`,
     fetcher,
     { refreshInterval: 10000 }
   );
 
-  const textItems: any[] = [];
+  const textItems: Record<string, unknown>[] = [];
   if (Array.isArray(textData)) {
-    textData.forEach((d: any) => {
+    textData.forEach((d: ContentDraft) => {
       const p = d.platformStatuses || {};
       
       const stLI = getPlatformStatus(p.linkedin, d.draftStatus);
       if (d.finalDraft?.linkedin && statusArray.includes(stLI)) {
         textItems.push({ ...d, _type: 'text', finalDraft: d.finalDraft.linkedin.postText || JSON.stringify(d.finalDraft.linkedin), draftStatus: stLI, platform: 'LinkedIn', jobId: d.jobId + '-li',
           noaFeedback: d.platformFeedbacks?.linkedin || d.noaFeedback,
-          founderFeedback: d.founderFeedback,
         });
       }
       
@@ -64,7 +52,6 @@ export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'f
       if (d.finalDraft?.x && statusArray.includes(stX)) {
         textItems.push({ ...d, _type: 'text', finalDraft: d.finalDraft.x.postText || JSON.stringify(d.finalDraft.x), draftStatus: stX, platform: 'X', jobId: d.jobId + '-x',
           noaFeedback: d.platformFeedbacks?.x || d.noaFeedback,
-          founderFeedback: d.founderFeedback,
         });
       }
       
@@ -72,7 +59,6 @@ export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'f
       if (d.finalDraft?.instagram && statusArray.includes(stInsta)) {
         textItems.push({ ...d, _type: 'text', finalDraft: d.finalDraft.instagram.caption || JSON.stringify(d.finalDraft.instagram), draftStatus: stInsta, platform: 'Instagram', jobId: d.jobId + '-insta',
           noaFeedback: d.platformFeedbacks?.instagram || d.noaFeedback,
-          founderFeedback: d.founderFeedback,
         });
       }
     });
@@ -97,8 +83,8 @@ export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'f
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1 className="page-title">{role === 'noa' ? "Noa's History" : "Founder History"}</h1>
-        <p className="page-subtitle">{role === 'noa' ? "Content Noa has approved or rejected" : "All completed, approved, and rejected content"}</p>
+        <h1 className="page-title">History</h1>
+        <p className="page-subtitle">Content Noa has approved or rejected</p>
       </div>
 
       {/* Filter bar */}
@@ -110,12 +96,9 @@ export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'f
         </select>
         <select className="filter-select" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
           <option value="all">All Statuses</option>
-          {role === 'noa' && <option value="pending_founders">Pending Founders</option>}
-          {role === 'noa' && <option value="rejected_noa">Requires AI Edit</option>}
-          {role === 'noa' && <option value="rejected_permanently">Discarded</option>}
-          {role === 'founder' && <option value="revision_requested_founders">Commented</option>}
-          <option value="approved_founders">Approved (Final)</option>
-          <option value="rejected_founders">Rejected (Final)</option>
+          <option value="rejected_noa">Requires AI Edit</option>
+          <option value="rejected_permanently">Discarded</option>
+          <option value="approved_noa">Approved</option>
           <option value="posted">Posted</option>
         </select>
         <select className="filter-select" value={platformFilter} onChange={e => setPlatformFilter(e.target.value)}>
@@ -175,14 +158,13 @@ export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'f
               return (
                 <ContentCard 
                   key={item.jobId} 
-                  draft={item as any} 
+                  draft={item as unknown as ContentDraft} 
                   actions={[]} 
-                  mode={role === 'founder' ? 'founders' : 'noa'} 
+                  mode="noa" 
                 />
               );
             }
 
-            const founderCfg = item.founderAction ? FOUNDER_ACTION_CONFIG[item.founderAction] : null;
             const timeAgo = formatDistanceToNow(new Date(item.updatedAt), { addSuffix: true });
             const exactDate = format(new Date(item.updatedAt), 'MMM d, yyyy · h:mm a');
             
@@ -213,11 +195,6 @@ export default function HistoryArchive({ role = 'founder' }: { role?: 'noa' | 'f
                     <span className="iteration-badge">
                       {item.iterationCount + 1} iteration{item.iterationCount !== 0 ? 's' : ''}
                     </span>
-                    {founderCfg && (
-                      <span className={`founder-action-badge ${founderCfg.className}`}>
-                        {founderCfg.icon} {founderCfg.label}
-                      </span>
-                    )}
                   </div>
                 </div>
 

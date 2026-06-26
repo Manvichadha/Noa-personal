@@ -4,10 +4,8 @@ export type Platform = 'X' | 'LinkedIn' | 'Instagram';
 export type ContentDraftStatus =
   | 'pending_noa'
   | 'rejected_noa'
-  | 'pending_founders'
-  | 'revision_requested_founders'
-  | 'approved_founders'
-  | 'rejected_founders'
+  | 'approved_noa'
+  | 'rejected_permanently'
   | 'posted';
 
 export type VideoDraftStatus =
@@ -16,10 +14,7 @@ export type VideoDraftStatus =
   | 'generating_video'
   | 'pending_noa_video'
   | 'rejected_noa_video'
-  | 'pending_founders'
-  | 'revision_requested_founders'
-  | 'approved_founders'
-  | 'rejected_founders'
+  | 'approved_noa'
   | 'posted';
 
 export type GenerationStage =
@@ -32,8 +27,6 @@ export type GenerationStage =
   | 'socialbee'
   | 'complete';
 
-export type FounderAction = 'approved' | 'commented' | 'disapproved';
-
 export interface ContentDraft {
   _id?: string;
   jobId: string;
@@ -45,16 +38,14 @@ export interface ContentDraft {
   agent3Output?: string;
   agent4Output?: string;
   agent5Output?: string;
-  finalDraft: any; // Real DB has this as an object mapping platforms to content
+  finalDraft: Record<string, { postText?: string; caption?: string } & Record<string, unknown>> | string;
   platformStatuses?: Record<string, string>;
   platformFeedbacks?: Record<string, string>;
   draftStatus: string;
   generationStage?: string;
-  platform?: Platform; // Legacy
+  platform?: Platform;
   iterationCount: number;
   noaFeedback?: string;
-  founderFeedback?: string;
-  founderAction?: FounderAction;
   createdAt: string;
   updatedAt: string;
 }
@@ -75,8 +66,6 @@ export interface VideoDraft {
   iterationCount: number;
   noaPromptFeedback?: string;
   noaVideoFeedback?: string;
-  founderFeedback?: string;
-  founderAction?: FounderAction;
   createdAt: string;
   updatedAt: string;
 }

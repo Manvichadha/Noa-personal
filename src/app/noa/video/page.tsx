@@ -60,8 +60,8 @@ export default function NoaVideoPage() {
 
   // Video actions
   const handleApproveVideo = async (draft: VideoDraft) => {
-    await patch(draft.jobId, { draftStatus: 'pending_founders' });
-    addToast('success', 'Video approved sent to Founder Team ✓');
+    await patch(draft.jobId, { draftStatus: 'approved_noa' });
+    addToast('success', 'Video approved ✓');
     mutateVideos();
   };
 

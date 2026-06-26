@@ -1,7 +1,8 @@
 'use client';
 // src/app/noa/layout.tsx
-import Sidebar, { TextIcon, VideoIcon, TrackerIcon, HistoryIcon, StatusIcon, SparklesIcon } from '@/components/Sidebar/Sidebar';
+import Sidebar, { TextIcon, VideoIcon, TrackerIcon, HistoryIcon, SparklesIcon } from '@/components/Sidebar/Sidebar';
 import useSWR from 'swr';
+import { ContentDraft } from '@/lib/types';
 import { getPlatformStatus } from '@/lib/utils';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
@@ -13,14 +14,16 @@ export default function NoaLayout({ children }: { children: React.ReactNode }) {
 
   let textCount = 0;
   if (Array.isArray(textQueue)) {
-    textQueue.forEach((d: any) => {
-      const sX = getPlatformStatus(d.platformStatuses?.x, 'no_status');
-      const sLI = getPlatformStatus(d.platformStatuses?.linkedin, 'no_status');
-      const sInsta = getPlatformStatus(d.platformStatuses?.instagram, 'no_status');
+    textQueue.forEach((d: ContentDraft) => {
+      const p = d.platformStatuses || {};
+      const fd = (d.finalDraft as Record<string, unknown>) || {};
+      const sX = getPlatformStatus(p.x, 'no_status');
+      const sLI = getPlatformStatus(p.linkedin, 'no_status');
+      const sInsta = getPlatformStatus(p.instagram, 'no_status');
       
-      if (sX === 'ready_for_noa_review' && d.finalDraft?.x) textCount++;
-      if (sLI === 'ready_for_noa_review' && d.finalDraft?.linkedin) textCount++;
-      if (sInsta === 'ready_for_noa_review' && d.finalDraft?.instagram) textCount++;
+      if (sX === 'ready_for_noa_review' && fd.x) textCount++;
+      if (sLI === 'ready_for_noa_review' && fd.linkedin) textCount++;
+      if (sInsta === 'ready_for_noa_review' && fd.instagram) textCount++;
     });
   }
 
@@ -48,11 +51,6 @@ export default function NoaLayout({ children }: { children: React.ReactNode }) {
       icon: <VideoIcon />,
       label: 'Video Review',
       badge: videoCount,
-    },
-    {
-      href: '/noa/founder-status',
-      icon: <StatusIcon />,
-      label: 'Founder Status',
     },
     {
       href: '/noa/history',

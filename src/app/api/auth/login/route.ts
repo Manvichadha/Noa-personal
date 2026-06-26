@@ -10,11 +10,6 @@ const USERS: Record<string, { password: string; role: string; redirect: string }
     role: 'noa',
     redirect: '/noa/tracker',
   },
-  founders: {
-    password: 'founders2026',
-    role: 'founder_team',
-    redirect: '/founders/tracker',
-  },
 };
 
 export async function POST(req: NextRequest) {

@@ -14,10 +14,15 @@ export async function GET(req: NextRequest) {
     const collection = db.collection('video_prompt_drafts');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const query: Record<string, any> = {};
+    const query: Record<string, unknown> = {};
 
     if (status) {
       const statuses = status.split(',').map((s) => s.trim());
+      if (statuses.includes('ready_for_noa_review')) statuses.push('pending_noa_review');
+      if (statuses.includes('approved_noa')) statuses.push('approved_by_noa', 'approved');
+      if (statuses.includes('rejected_permanently')) statuses.push('rejected_by_noa', 'rejected');
+      if (statuses.includes('rejected_noa')) statuses.push('noa_edit_requested', 'edit_requested');
+      
       query.draftStatus = statuses.length === 1 ? statuses[0] : { $in: statuses };
     }
     if (hasVideo === 'true') {

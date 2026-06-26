@@ -15,30 +15,15 @@ export default function proxy(req: NextRequest) {
     }
     if (role !== 'noa') {
       const url = req.nextUrl.clone();
-      url.pathname = role === 'founder_team' ? '/founders/tracker' : '/login';
-      return NextResponse.redirect(url);
-    }
-  }
-
-  // ── Protect /founders/* — requires role=founder_team ──
-  if (pathname.startsWith('/founders')) {
-    if (!role) {
-      const loginUrl = req.nextUrl.clone();
-      loginUrl.pathname = '/login';
-      loginUrl.searchParams.set('redirect', pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-    if (role !== 'founder_team') {
-      const url = req.nextUrl.clone();
-      url.pathname = role === 'noa' ? '/noa/tracker' : '/login';
+      url.pathname = '/login';
       return NextResponse.redirect(url);
     }
   }
 
   // ── Already logged in — redirect /login → dashboard ──
-  if (pathname === '/login' && role) {
+  if (pathname === '/login' && role === 'noa') {
     const url = req.nextUrl.clone();
-    url.pathname = role === 'noa' ? '/noa/tracker' : '/founders/tracker';
+    url.pathname = '/noa/tracker';
     return NextResponse.redirect(url);
   }
 
@@ -46,5 +31,5 @@ export default function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/noa/:path*', '/founders/:path*', '/login'],
+  matcher: ['/noa/:path*', '/login'],
 };
