@@ -36,7 +36,7 @@ export default function HistoryArchive({ role }: { role?: string }) {
     { refreshInterval: 10000 }
   );
 
-  const textItems: Record<string, unknown>[] = [];
+  const textItems: any[] = [];
   if (Array.isArray(textData)) {
     textData.forEach((d: ContentDraft) => {
       const p = d.platformStatuses || {};

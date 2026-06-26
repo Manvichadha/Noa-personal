@@ -13,7 +13,7 @@ export default function TrackerDashboard() {
   const { data: textData } = useSWR<ContentDraft[]>('/api/content-drafts', fetcher, { refreshInterval: 30000 });
   const { data: videoData } = useSWR<VideoDraft[]>('/api/video-drafts', fetcher, { refreshInterval: 30000 });
 
-  const textItems: Record<string, unknown>[] = [];
+  const textItems: any[] = [];
   if (Array.isArray(textData)) {
     textData.forEach((d: ContentDraft) => {
       const p = d.platformStatuses || {};

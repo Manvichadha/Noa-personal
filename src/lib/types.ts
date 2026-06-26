@@ -38,7 +38,7 @@ export interface ContentDraft {
   agent3Output?: string;
   agent4Output?: string;
   agent5Output?: string;
-  finalDraft: Record<string, { postText?: string; caption?: string } & Record<string, unknown>> | string;
+  finalDraft: any;
   platformStatuses?: Record<string, string>;
   platformFeedbacks?: Record<string, string>;
   draftStatus: string;

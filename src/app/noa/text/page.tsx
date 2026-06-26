@@ -15,7 +15,7 @@ function generateId() { return Math.random().toString(36).slice(2); }
 
 const N8N_NOA_REVIEW_WEBHOOK = process.env.NEXT_PUBLIC_N8N_NOA_REVIEW_WEBHOOK || "http://168.144.71.48:5678/webhook/noa-review-decision";
 
-async function handleNoaDecision(draft: ContentDraft & Record<string, unknown>, decision: string, feedback: string = "") {
+async function handleNoaDecision(draft: any, decision: string, feedback: string = "") {
   try {
     const response = await fetch(N8N_NOA_REVIEW_WEBHOOK, {
       method: "POST",
@@ -140,15 +140,15 @@ export default function NoaTextPage() {
   // Only update the single platform that was acted on.
   // MongoDB $set on platformStatuses.X only changes that one field —
   // the other platforms are untouched in the document.
-  const getPlatformStatusesUpdates = (draft: ContentDraft & Record<string, unknown>, targetStatus: string) => ({
+  const getPlatformStatusesUpdates = (draft: any, targetStatus: string) => ({
     [`${draft.virtualPlatform}.noaStatus`]: targetStatus,
   });
 
-  const getPlatformReviewMetaUpdates = (draft: ContentDraft & Record<string, unknown>, targetStatus: string) => ({
+  const getPlatformReviewMetaUpdates = (draft: any, targetStatus: string) => ({
     [`${draft.virtualPlatform}.noaStatus`]: targetStatus,
   });
 
-  const handleApprove = async (draft: ContentDraft & Record<string, unknown>) => {
+  const handleApprove = async (draft: any) => {
     const updates = getPlatformStatusesUpdates(draft, 'approved_noa');
     const metaUpdates = getPlatformReviewMetaUpdates(draft, 'approved_by_noa');
     await patch(draft.jobId, {
@@ -161,7 +161,7 @@ export default function NoaTextPage() {
     handleNoaDecision(draft, "approve");
   };
 
-  const handleReject = async (draft: ContentDraft & Record<string, unknown>, feedback: string) => {
+  const handleReject = async (draft: any, feedback: string) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_noa');
     const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected_by_noa');
     await patch(draft.jobId, {
@@ -175,7 +175,7 @@ export default function NoaTextPage() {
     handleNoaDecision(draft, "edit", feedback);
   };
 
-  const handleHardReject = async (draft: ContentDraft & Record<string, unknown>) => {
+  const handleHardReject = async (draft: any) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_permanently');
     const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected_permanently');
     await patch(draft.jobId, {
@@ -187,9 +187,9 @@ export default function NoaTextPage() {
     mutate();
     handleNoaDecision(draft, "reject");
   };
-  const linkedInDrafts: (ContentDraft & Record<string, unknown>)[] = [];
-  const xDrafts: (ContentDraft & Record<string, unknown>)[] = [];
-  const instaDrafts: (ContentDraft & Record<string, unknown>)[] = [];
+  const linkedInDrafts: (any)[] = [];
+  const xDrafts: (any)[] = [];
+  const instaDrafts: (any)[] = [];
 
   rawDrafts.forEach(d => {
     // Use 'no_status' as default so platforms without an explicit status entry
@@ -246,7 +246,7 @@ export default function NoaTextPage() {
     }
   };
 
-  const sortDrafts = (drafts: (ContentDraft & Record<string, unknown>)[]) => {
+  const sortDrafts = (drafts: (any)[]) => {
     return [...drafts].sort((a, b) => {
       const timeA = new Date(a.updatedAt || a.createdAt).getTime();
       const timeB = new Date(b.updatedAt || b.createdAt).getTime();
@@ -427,10 +427,10 @@ export default function NoaTextPage() {
                     position: 'relative'
                   }}>
                     {/* Sparkle badge */}
-                    {((job as Record<string, unknown>).inputType || (job as Record<string, unknown>).inputContent) && (
+                    {((job as any).inputType || (job as any).inputContent) && (
                       <div className="ai-badge-wrap" style={{ position: 'absolute', top: 16, right: 20 }}>
                         <div className="ai-badge-icon"><SparklesIcon /></div>
-                        <div className="ai-badge-tooltip">Generated via {((job as Record<string, unknown>).inputType || (job as Record<string, unknown>).contentType) as string} workflow</div>
+                        <div className="ai-badge-tooltip">Generated via {((job as any).inputType || (job as any).contentType) as string} workflow</div>
                       </div>
                     )}
 
@@ -491,7 +491,7 @@ export default function NoaTextPage() {
                         </button>
                       );
 
-                      const hasInput = !!(job as Record<string, unknown>).inputContent;
+                      const hasInput = !!(job as any).inputContent;
 
                       return (
                         <>
@@ -511,7 +511,7 @@ export default function NoaTextPage() {
                           {hasInput && (
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                               <p style={{ fontSize: 13, color: '#111', margin: 0, fontWeight: 700 }}>
-                                Input: {(job as Record<string, unknown>).inputContent as string}
+                                Input: {(job as any).inputContent as string}
                               </p>
                               {copyBtn}
                             </div>

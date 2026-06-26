@@ -62,8 +62,8 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
 
   const platform   = draft.platform || 'X';
   const platformCfg = PLATFORM_COLORS[platform] || PLATFORM_COLORS['X'];
-  const pStatuses = (draft as Record<string, unknown>).platformStatuses || {};
-  const vPlatform = (draft as Record<string, unknown>).virtualPlatform;
+  const pStatuses = (draft as any).platformStatuses || {};
+  const vPlatform = (draft as any).virtualPlatform;
   const effectiveStatus = vPlatform
     ? getPlatformStatus(pStatuses[vPlatform], draft.draftStatus)
     : draft.draftStatus;
@@ -76,10 +76,10 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
     if (!val) return '';
     if (typeof val === 'string') return val;
     if (typeof val !== 'object') return String(val);
-    const clean = { ...(val as Record<string, unknown>) };
+    const clean = { ...(val as any) };
     delete clean.agentName; delete clean.jobId;
     delete clean.contentType; delete clean.status; delete clean.timestamp;
-    const gather = (obj: Record<string, unknown>): string[] => {
+    const gather = (obj: any): string[] => {
       if (typeof obj === 'string') return [obj];
       if (typeof obj !== 'object' || !obj) return [];
       let r: string[] = [];
