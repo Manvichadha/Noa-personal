@@ -52,42 +52,42 @@ export default function NoaTextPage() {
   // partial data from before the fix was deployed.
   const rawDrafts = Array.isArray(data)
     ? Object.values(
-        data.reduce<Record<string, ContentDraft>>((acc, doc) => {
-          const key = String(doc.jobId);
-          if (!acc[key]) { acc[key] = { ...doc }; return acc; }
-          const existing = acc[key];
-          // Merge per-platform objects (newer doc wins per key)
-          const existingTime = new Date(existing.updatedAt || existing.createdAt || 0).getTime();
-          const docTime      = new Date(doc.updatedAt     || doc.createdAt     || 0).getTime();
-          const [older, newer] = docTime > existingTime ? [existing, doc] : [doc, existing];
-          
-          const finalDraft = { ...(older.finalDraft || {}) };
-          if (newer.finalDraft) {
-            for (const [p, c] of Object.entries(newer.finalDraft)) {
-              if (c && typeof c === 'object' && ((c as Record<string, unknown>).postText !== '' && (c as Record<string, unknown>).caption !== '')) {
-                finalDraft[p] = c;
-              } else if (c && typeof c !== 'object') {
-                finalDraft[p] = c;
-              }
+      data.reduce<Record<string, ContentDraft>>((acc, doc) => {
+        const key = String(doc.jobId);
+        if (!acc[key]) { acc[key] = { ...doc }; return acc; }
+        const existing = acc[key];
+        // Merge per-platform objects (newer doc wins per key)
+        const existingTime = new Date(existing.updatedAt || existing.createdAt || 0).getTime();
+        const docTime = new Date(doc.updatedAt || doc.createdAt || 0).getTime();
+        const [older, newer] = docTime > existingTime ? [existing, doc] : [doc, existing];
+
+        const finalDraft = { ...((older.finalDraft as any) || {}) };
+        if (newer.finalDraft) {
+          for (const [p, c] of Object.entries(newer.finalDraft)) {
+            if (c && typeof c === 'object' && ((c as Record<string, unknown>).postText !== '' && (c as Record<string, unknown>).caption !== '')) {
+              finalDraft[p] = c;
+            } else if (c && typeof c !== 'object') {
+              finalDraft[p] = c;
             }
           }
+        }
 
-          const platformStatuses = { ...(older.platformStatuses || {}) };
-          if (newer.platformStatuses) {
-            for (const [p, s] of Object.entries(newer.platformStatuses)) {
-              if (s) platformStatuses[p] = s;
-            }
+        const platformStatuses = { ...(older.platformStatuses || {}) };
+        if (newer.platformStatuses) {
+          for (const [p, s] of Object.entries(newer.platformStatuses)) {
+            if (s) platformStatuses[p] = s;
           }
+        }
 
-          acc[key] = {
-            ...newer,
-            finalDraft,
-            platformStatuses,
-            platformFeedbacks: { ...(older.platformFeedbacks || {}), ...(newer.platformFeedbacks || {}) },
-          };
-          return acc;
-        }, {})
-      )
+        acc[key] = {
+          ...newer,
+          finalDraft,
+          platformStatuses,
+          platformFeedbacks: { ...(older.platformFeedbacks || {}), ...(newer.platformFeedbacks || {}) },
+        };
+        return acc;
+      }, {})
+    )
     : [];
 
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -98,7 +98,7 @@ export default function NoaTextPage() {
 
   function usePersistentSessionCount(key: string) {
     const [count, setCount] = useState(0);
-    
+
     useEffect(() => {
       const saved = localStorage.getItem(key);
       if (saved) setCount(parseInt(saved, 10));
@@ -151,9 +151,9 @@ export default function NoaTextPage() {
   const handleApprove = async (draft: ContentDraft & Record<string, unknown>) => {
     const updates = getPlatformStatusesUpdates(draft, 'approved_noa');
     const metaUpdates = getPlatformReviewMetaUpdates(draft, 'approved_by_noa');
-    await patch(draft.jobId, { 
+    await patch(draft.jobId, {
       platformStatuses: updates,
-      platformReviewMeta: metaUpdates 
+      platformReviewMeta: metaUpdates
     });
     addToast('success', `Content approved ✓`);
     setApprovedSessionCount(prev => prev + 1);
@@ -164,7 +164,7 @@ export default function NoaTextPage() {
   const handleReject = async (draft: ContentDraft & Record<string, unknown>, feedback: string) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_noa');
     const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected_by_noa');
-    await patch(draft.jobId, { 
+    await patch(draft.jobId, {
       platformStatuses: updates,
       platformReviewMeta: metaUpdates,
       platformFeedbacks: { [draft.virtualPlatform]: feedback }
@@ -178,7 +178,7 @@ export default function NoaTextPage() {
   const handleHardReject = async (draft: ContentDraft & Record<string, unknown>) => {
     const updates = getPlatformStatusesUpdates(draft, 'rejected_permanently');
     const metaUpdates = getPlatformReviewMetaUpdates(draft, 'rejected_permanently');
-    await patch(draft.jobId, { 
+    await patch(draft.jobId, {
       platformStatuses: updates,
       platformReviewMeta: metaUpdates
     });
@@ -230,9 +230,9 @@ export default function NoaTextPage() {
       await Promise.all(draftsToApprove.map(async d => {
         const updates = getPlatformStatusesUpdates(d, 'approved_noa');
         const metaUpdates = getPlatformReviewMetaUpdates(d, 'approved_by_noa');
-        await patch(d.jobId, { 
+        await patch(d.jobId, {
           platformStatuses: updates,
-          platformReviewMeta: metaUpdates 
+          platformReviewMeta: metaUpdates
         });
         handleNoaDecision(d, "approve");
       }));
@@ -259,9 +259,9 @@ export default function NoaTextPage() {
   const sortedInsta = sortDrafts(instaDrafts);
 
   const PLATFORM_FILTERS: { key: 'all' | 'linkedin' | 'x' | 'instagram'; label: string; dot: string }[] = [
-    { key: 'all',       label: 'All',       dot: '' },
-    { key: 'linkedin',  label: 'LinkedIn',  dot: '#0077b5' },
-    { key: 'x',        label: 'X',         dot: '#111827' },
+    { key: 'all', label: 'All', dot: '' },
+    { key: 'linkedin', label: 'LinkedIn', dot: '#0077b5' },
+    { key: 'x', label: 'X', dot: '#111827' },
     { key: 'instagram', label: 'Instagram', dot: '#e1306c' },
   ];
 
@@ -291,7 +291,7 @@ export default function NoaTextPage() {
               cursor: 'pointer', transition: 'all 0.15s',
             }}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19" /><polyline points="19 12 12 19 5 12" /></svg>
             Sort · {sortBy === 'newest' ? 'Newest' : 'Oldest'}
           </button>
 
@@ -307,7 +307,7 @@ export default function NoaTextPage() {
               transition: 'all 0.15s', opacity: approvingAll ? 0.6 : 1,
             }}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
             {approvingAll ? 'Approving…' : 'Approve all'}
           </button>
         </div>
@@ -316,10 +316,10 @@ export default function NoaTextPage() {
       {/* Summary stats */}
       <div style={{ display: 'flex', gap: 1, marginBottom: 28, background: '#efefef', borderRadius: 14, overflow: 'hidden' }}>
         {[
-          { label: 'Pending',  value: totalDrafts,          sub: 'awaiting review' },
+          { label: 'Pending', value: totalDrafts, sub: 'awaiting review' },
           { label: 'Approved', value: approvedSessionCount, sub: 'this session' },
           { label: 'Rejected', value: rejectedSessionCount, sub: 'this session' },
-          { label: 'Edited',   value: editedSessionCount,   sub: 'this session' },
+          { label: 'Edited', value: editedSessionCount, sub: 'this session' },
         ].map((stat, i) => (
           <div key={i} style={{
             flex: 1, padding: '18px 24px',
@@ -404,7 +404,7 @@ export default function NoaTextPage() {
               const handleCopyAll = async () => {
                 const parts: string[] = [];
                 if (jobLI) parts.push(`── LinkedIn ──\n${jobLI.finalDraft}`);
-                if (jobX)  parts.push(`── X (Twitter) ──\n${jobX.finalDraft}`);
+                if (jobX) parts.push(`── X (Twitter) ──\n${jobX.finalDraft}`);
                 if (jobInsta) parts.push(`── Instagram ──\n${jobInsta.finalDraft}`);
                 if (parts.length === 0) return;
                 try {
@@ -577,9 +577,9 @@ export default function NoaTextPage() {
         /* ── Single platform: full-width 2-column responsive grid ── */
         (() => {
           const cfg = {
-            linkedin:  { label: 'LinkedIn',   dot: '#0077b5', drafts: sortedLinkedIn },
-            x:         { label: 'X (Twitter)', dot: '#111827', drafts: sortedX },
-            instagram: { label: 'Instagram',   dot: '#e1306c', drafts: sortedInsta },
+            linkedin: { label: 'LinkedIn', dot: '#0077b5', drafts: sortedLinkedIn },
+            x: { label: 'X (Twitter)', dot: '#111827', drafts: sortedX },
+            instagram: { label: 'Instagram', dot: '#e1306c', drafts: sortedInsta },
           }[selectedPlatform as 'linkedin' | 'x' | 'instagram'];
 
           return (
