@@ -138,6 +138,13 @@ let transport: SSEServerTransport;
 // Claude connects here to establish the SSE stream
 app.get("/mcp", async (req, res) => {
   const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
+  
+  if (transport) {
+    try {
+      await server.close();
+    } catch (e) {}
+  }
+
   transport = new SSEServerTransport(`/messages?token=${token}`, res);
   await server.connect(transport);
 });
