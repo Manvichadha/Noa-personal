@@ -75,6 +75,11 @@ const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 let activeTransport: SSEServerTransport | null = null;
 
 app.use((req, res, next) => {
+  // If Claude probes for OAuth, immediately return 404 so it knows we don't use OAuth!
+  if (req.path.startsWith("/.well-known/") || req.path === "/register") {
+    return res.status(404).json({ error: "Not Found" });
+  }
+
   // Skip auth for /mcp POST requests because Claude client strips query params
   if (req.method === "POST" && req.path === "/mcp") {
     return next();
