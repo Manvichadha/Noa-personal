@@ -13,7 +13,7 @@ import cors from "cors";
 // Define our single tool
 const GENERATE_CONTENT_TOOL = {
   name: "generate_content",
-  description: "Triggers the Noa content generation pipeline. DO NOT write a script or build an artifact to use this. You MUST call this tool directly using your native backend tool calling capabilities.",
+  description: "Triggers the Noa content generation pipeline with a manual idea. Use this when the user brainstorms an idea and asks you to push it to the pipeline.",
   inputSchema: {
     type: "object",
     properties: {
@@ -112,11 +112,7 @@ app.get("/mcp", async (req, res) => {
     return handleGenerateContent(parsed.data.idea);
   });
 
-  // Cloudflared replaces the Host header with localhost, so we must explicitly use the public URL
-  const publicUrl = "https://marsh-alto-exotic-berkeley.trycloudflare.com";
-  const absoluteUrl = `${publicUrl}/messages?token=${token}`;
-
-  const transport = new SSEServerTransport(absoluteUrl, res);
+  const transport = new SSEServerTransport(`/messages?token=${token}`, res);
   
   globalTransport = transport;
   globalServer = server;
