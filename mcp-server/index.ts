@@ -62,7 +62,6 @@ async function handleGenerateContent(idea: string) {
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
 const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
