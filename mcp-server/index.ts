@@ -112,7 +112,12 @@ app.get("/mcp", async (req, res) => {
     return handleGenerateContent(parsed.data.idea);
   });
 
-  const transport = new SSEServerTransport(`/messages?token=${token}`, res);
+  // Construct the absolute URL for the messages endpoint
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+  const absoluteUrl = `${protocol}://${host}/messages?token=${token}`;
+
+  const transport = new SSEServerTransport(absoluteUrl, res);
   
   globalTransport = transport;
   globalServer = server;
