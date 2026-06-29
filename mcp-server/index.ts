@@ -72,8 +72,11 @@ app.use((req, res, next) => {
 
 const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
+let activeTransport: SSEServerTransport | null = null;
+
 app.use((req, res, next) => {
-  if (req.path.startsWith("/messages")) {
+  // Skip auth for /mcp POST requests because Claude client strips query params
+  if (req.method === "POST" && req.path === "/mcp") {
     return next();
   }
 
@@ -119,19 +122,17 @@ app.get("/mcp", async (req, res) => {
       return handleGenerateContent(parsed.data.idea);
     });
 
-    const sessionId = Math.random().toString(36).substring(2, 15);
-    console.log(`[DIAGNOSTIC] Generated sessionId: ${sessionId}`);
+    console.log(`[DIAGNOSTIC] Calling server.connect(transport)...`);
     
-    const transport = new SSEServerTransport(`/messages/${sessionId}`, res);
+    // We MUST pass /mcp here, although Claude's backend ignores it anyway.
+    activeTransport = new SSEServerTransport("/mcp", res);
     
-    transports.set(sessionId, transport);
     res.on('close', () => {
-      console.log(`[DIAGNOSTIC] SSE connection closed for session: ${sessionId}`);
-      transports.delete(sessionId);
+      console.log(`[DIAGNOSTIC] SSE connection closed.`);
+      activeTransport = null;
     });
 
-    console.log(`[DIAGNOSTIC] Calling server.connect(transport)...`);
-    await server.connect(transport);
+    await server.connect(activeTransport);
     console.log(`[DIAGNOSTIC] server.connect() returned.`);
   } catch (err: any) {
     console.error(`[DIAGNOSTIC] CRITICAL ERROR in GET /mcp:`, err);
@@ -140,22 +141,20 @@ app.get("/mcp", async (req, res) => {
 });
 
 // Claude POSTs tool execution requests here
-app.post("/messages/:sessionId", async (req, res) => {
-  const sessionId = req.params.sessionId;
-  console.log(`[DIAGNOSTIC] Handling POST /messages for session: ${sessionId}`);
+app.post("/mcp", async (req, res) => {
+  console.log(`[DIAGNOSTIC] Handling POST /mcp`);
   
-  const transport = transports.get(sessionId);
-  if (!transport) {
-    console.log(`[DIAGNOSTIC] Transport not found for session: ${sessionId}. Current active sessions:`, Array.from(transports.keys()));
-    return res.status(404).json({ error: "SSE connection not established or expired" });
+  if (!activeTransport) {
+    console.log(`[DIAGNOSTIC] No active SSE transport found. Returning 400.`);
+    return res.status(400).json({ error: "SSE connection not established" });
   }
   
   try {
     console.log(`[DIAGNOSTIC] Calling transport.handlePostMessage...`);
-    await transport.handlePostMessage(req, res);
+    await activeTransport.handlePostMessage(req, res);
     console.log(`[DIAGNOSTIC] transport.handlePostMessage completed successfully.`);
   } catch (err: any) {
-    console.error(`[DIAGNOSTIC] CRITICAL ERROR in POST /messages/${sessionId}:`, err);
+    console.error(`[DIAGNOSTIC] CRITICAL ERROR in POST /mcp:`, err);
     if (!res.headersSent) {
       res.status(500).json({ error: "Failed to process message" });
     }
