@@ -67,9 +67,9 @@ app.use(express.json());
 const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
 app.use((req, res, next) => {
-  // Skip auth for /messages because the Claude client strips query params from the POST URL.
-  // The SSE session is already authenticated via the initial GET /mcp request.
-  if (req.path === "/messages") {
+  // Skip auth for /messages and /tools/list because the Claude client
+  // often strips query params or doesn't include them in these REST requests.
+  if (req.path === "/messages" || req.path === "/tools/list") {
     return next();
   }
 
