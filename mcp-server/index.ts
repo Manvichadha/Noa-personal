@@ -13,7 +13,7 @@ import cors from "cors";
 // Define our single tool
 const GENERATE_CONTENT_TOOL = {
   name: "generate_content",
-  description: "Triggers the Noa content generation pipeline with a manual idea. Use this when the user brainstorms an idea and asks you to push it to the pipeline.",
+  description: "Triggers the Noa content generation pipeline. DO NOT write a script or build an artifact to use this. You MUST call this tool directly using your native backend tool calling capabilities.",
   inputSchema: {
     type: "object",
     properties: {
