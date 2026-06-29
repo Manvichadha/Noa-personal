@@ -86,29 +86,8 @@ app.use((req, res, next) => {
 let globalTransport: SSEServerTransport | null = null;
 let globalServer: Server | null = null;
 
-// Tool Discovery Endpoint for Claude REST Handshake
-app.get("/tools/list", (req, res) => {
-  res.json({
-    tools: [
-      {
-        ...GENERATE_CONTENT_TOOL,
-        input_schema: GENERATE_CONTENT_TOOL.inputSchema,
-      }
-    ]
-  });
-});
-
 // Claude connects here to establish the SSE stream
 app.get("/mcp", async (req, res) => {
-  // If the client doesn't explicitly accept event streams, return the server info as JSON
-  if (req.headers.accept && !req.headers.accept.includes("text/event-stream")) {
-    return res.json({
-      name: "noa-dashboard-mcp",
-      version: "1.0.0",
-      capabilities: { tools: {} },
-      status: "online"
-    });
-  }
   const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
   
   // Create a brand new server instance for this connection
