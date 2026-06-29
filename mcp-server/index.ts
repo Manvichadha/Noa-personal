@@ -82,8 +82,7 @@ app.use((req, res, next) => {
   next();
 });
 
-let globalTransport: SSEServerTransport | null = null;
-let globalServer: Server | null = null;
+const transports = new Map<string, SSEServerTransport>();
 
 // Tool Discovery Endpoint for Claude REST Handshake
 app.get("/tools/list", (req, res) => {
@@ -133,20 +132,23 @@ app.get("/mcp", async (req, res) => {
     return handleGenerateContent(parsed.data.idea);
   });
 
-  const transport = new SSEServerTransport(`/messages?token=${token}`, res);
+  const sessionId = Math.random().toString(36).substring(2, 15);
+  const transport = new SSEServerTransport(`/messages?sessionId=${sessionId}&token=${token}`, res);
   
-  globalTransport = transport;
-  globalServer = server;
+  transports.set(sessionId, transport);
+  res.on('close', () => transports.delete(sessionId));
 
   await server.connect(transport);
 });
 
-// Claude POSTs tool execution requests here
 app.post("/messages", async (req, res) => {
-  if (!globalTransport) {
-    return res.status(400).json({ error: "SSE connection not established" });
+  const sessionId = req.query.sessionId as string;
+  const transport = transports.get(sessionId);
+  
+  if (!transport) {
+    return res.status(404).json({ error: "SSE connection not established or expired" });
   }
-  await globalTransport.handlePostMessage(req, res);
+  await transport.handlePostMessage(req, res);
 });
 
 const PORT = process.env.PORT || 3002;
