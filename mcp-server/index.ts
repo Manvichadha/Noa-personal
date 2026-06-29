@@ -112,10 +112,9 @@ app.get("/mcp", async (req, res) => {
     return handleGenerateContent(parsed.data.idea);
   });
 
-  // Construct the absolute URL for the messages endpoint
-  const host = req.headers['x-forwarded-host'] || req.headers.host;
-  const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
-  const absoluteUrl = `${protocol}://${host}/messages?token=${token}`;
+  // Cloudflared replaces the Host header with localhost, so we must explicitly use the public URL
+  const publicUrl = "https://marsh-alto-exotic-berkeley.trycloudflare.com";
+  const absoluteUrl = `${publicUrl}/messages?token=${token}`;
 
   const transport = new SSEServerTransport(absoluteUrl, res);
   
