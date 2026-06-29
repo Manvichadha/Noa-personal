@@ -63,11 +63,16 @@ async function handleGenerateContent(idea: string) {
 const app = express();
 app.use(cors());
 
+// --- DIAGNOSTIC LOGGING MIDDLEWARE ---
+app.use((req, res, next) => {
+  console.log(`\n[DIAGNOSTIC] Incoming Request: ${req.method} ${req.originalUrl}`);
+  console.log(`[DIAGNOSTIC] Headers:`, JSON.stringify(req.headers));
+  next();
+});
+
 const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
 app.use((req, res, next) => {
-  // Skip auth for /messages/* because the Claude client
-  // often strips query params or doesn't include them in these REST requests.
   if (req.path.startsWith("/messages")) {
     return next();
   }
@@ -77,6 +82,7 @@ app.use((req, res, next) => {
   const providedToken = authHeader ? authHeader.replace('Bearer ', '') : queryToken;
 
   if (providedToken !== MCP_API_KEY) {
+    console.log(`[DIAGNOSTIC] Auth Failed. Provided: ${providedToken}, Expected: ${MCP_API_KEY}`);
     return res.status(401).json({ error: "Unauthorized API Key" });
   }
   next();
@@ -86,52 +92,81 @@ const transports = new Map<string, SSEServerTransport>();
 
 // Claude connects here to establish the SSE stream
 app.get("/mcp", async (req, res) => {
-  const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
-  
-  // Create a brand new server instance for this connection
-  const server = new Server(
-    { name: "noa-dashboard-mcp", version: "1.0.0" },
-    { capabilities: { tools: {} } }
-  );
+  console.log(`[DIAGNOSTIC] Handling GET /mcp request...`);
+  try {
+    const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
+    
+    const server = new Server(
+      { name: "noa-dashboard-mcp", version: "1.0.0" },
+      { capabilities: { tools: {} } }
+    );
 
-  server.setRequestHandler(ListToolsRequestSchema, async () => ({
-    tools: [GENERATE_CONTENT_TOOL],
-  }));
+    server.setRequestHandler(ListToolsRequestSchema, async () => {
+      console.log(`[DIAGNOSTIC] Received ListTools request`);
+      return { tools: [GENERATE_CONTENT_TOOL] };
+    });
 
-  server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    if (request.params.name !== "generate_content") {
-      throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
-    }
-    const argsSchema = z.object({ idea: z.string() });
-    const parsed = argsSchema.safeParse(request.params.arguments);
-    if (!parsed.success) {
-      throw new McpError(ErrorCode.InvalidParams, "Invalid arguments.");
-    }
-    return handleGenerateContent(parsed.data.idea);
-  });
+    server.setRequestHandler(CallToolRequestSchema, async (request) => {
+      console.log(`[DIAGNOSTIC] Received CallTool request for ${request.params.name}`);
+      if (request.params.name !== "generate_content") {
+        throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
+      }
+      const argsSchema = z.object({ idea: z.string() });
+      const parsed = argsSchema.safeParse(request.params.arguments);
+      if (!parsed.success) {
+        throw new McpError(ErrorCode.InvalidParams, "Invalid arguments.");
+      }
+      return handleGenerateContent(parsed.data.idea);
+    });
 
-  const sessionId = Math.random().toString(36).substring(2, 15);
-  // Put sessionId in the URL path, NOT the query string, to survive query stripping!
-  const transport = new SSEServerTransport(`/messages/${sessionId}`, res);
-  
-  transports.set(sessionId, transport);
-  res.on('close', () => transports.delete(sessionId));
+    const sessionId = Math.random().toString(36).substring(2, 15);
+    console.log(`[DIAGNOSTIC] Generated sessionId: ${sessionId}`);
+    
+    const transport = new SSEServerTransport(`/messages/${sessionId}`, res);
+    
+    transports.set(sessionId, transport);
+    res.on('close', () => {
+      console.log(`[DIAGNOSTIC] SSE connection closed for session: ${sessionId}`);
+      transports.delete(sessionId);
+    });
 
-  await server.connect(transport);
+    console.log(`[DIAGNOSTIC] Calling server.connect(transport)...`);
+    await server.connect(transport);
+    console.log(`[DIAGNOSTIC] server.connect() returned.`);
+  } catch (err: any) {
+    console.error(`[DIAGNOSTIC] CRITICAL ERROR in GET /mcp:`, err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
+// Claude POSTs tool execution requests here
 app.post("/messages/:sessionId", async (req, res) => {
   const sessionId = req.params.sessionId;
-  const transport = transports.get(sessionId);
+  console.log(`[DIAGNOSTIC] Handling POST /messages for session: ${sessionId}`);
   
+  const transport = transports.get(sessionId);
   if (!transport) {
+    console.log(`[DIAGNOSTIC] Transport not found for session: ${sessionId}. Current active sessions:`, Array.from(transports.keys()));
     return res.status(404).json({ error: "SSE connection not established or expired" });
   }
-  await transport.handlePostMessage(req, res);
+  
+  try {
+    console.log(`[DIAGNOSTIC] Calling transport.handlePostMessage...`);
+    await transport.handlePostMessage(req, res);
+    console.log(`[DIAGNOSTIC] transport.handlePostMessage completed successfully.`);
+  } catch (err: any) {
+    console.error(`[DIAGNOSTIC] CRITICAL ERROR in POST /messages/${sessionId}:`, err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Failed to process message" });
+    }
+  }
 });
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
+  console.log(`\n========================================`);
   console.log(`Remote MCP Server listening on port ${PORT}`);
   console.log(`Use Bearer token: ${MCP_API_KEY}`);
+  console.log(`Diagnostic Logging ENABLED`);
+  console.log(`========================================\n`);
 });
