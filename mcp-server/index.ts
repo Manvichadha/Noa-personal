@@ -66,9 +66,9 @@ app.use(cors());
 const MCP_API_KEY = process.env.MCP_API_KEY || "noa-secret-key-2026";
 
 app.use((req, res, next) => {
-  // Skip auth for /messages and /tools/list because the Claude client
+  // Skip auth for /messages/* because the Claude client
   // often strips query params or doesn't include them in these REST requests.
-  if (req.path === "/messages" || req.path === "/tools/list") {
+  if (req.path.startsWith("/messages")) {
     return next();
   }
 
@@ -111,7 +111,8 @@ app.get("/mcp", async (req, res) => {
   });
 
   const sessionId = Math.random().toString(36).substring(2, 15);
-  const transport = new SSEServerTransport(`/messages?sessionId=${sessionId}&token=${token}`, res);
+  // Put sessionId in the URL path, NOT the query string, to survive query stripping!
+  const transport = new SSEServerTransport(`/messages/${sessionId}`, res);
   
   transports.set(sessionId, transport);
   res.on('close', () => transports.delete(sessionId));
@@ -119,8 +120,8 @@ app.get("/mcp", async (req, res) => {
   await server.connect(transport);
 });
 
-app.post("/messages", async (req, res) => {
-  const sessionId = req.query.sessionId as string;
+app.post("/messages/:sessionId", async (req, res) => {
+  const sessionId = req.params.sessionId;
   const transport = transports.get(sessionId);
   
   if (!transport) {
