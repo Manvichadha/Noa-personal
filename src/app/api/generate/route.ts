@@ -5,16 +5,7 @@ import { getDb } from '@/lib/mongodb';
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Missing Authorization header' }, { status: 401 });
-    }
 
-    const auth = authHeader.split(' ')[1];
-    const [user, pwd] = Buffer.from(auth, 'base64').toString().split(':');
-    if (user !== 'noa' || pwd !== 'noa2026') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
     const formData = await req.formData();
     const inputType = formData.get('inputType') as string;
