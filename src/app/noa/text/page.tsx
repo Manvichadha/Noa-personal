@@ -409,7 +409,19 @@ export default function NoaTextPage() {
                 if (jobInsta) parts.push(`── Instagram ──\n${jobInsta.finalDraft}`);
                 if (parts.length === 0) return;
                 try {
-                  await navigator.clipboard.writeText(parts.join('\n\n'));
+                  const textToCopy = parts.join('\n\n');
+                  if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(textToCopy);
+                  } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = textToCopy;
+                    textArea.style.position = "absolute";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    textArea.remove();
+                  }
                   setCopiedJobId(job.jobId);
                   setTimeout(() => setCopiedJobId(null), 2000);
                 } catch {
