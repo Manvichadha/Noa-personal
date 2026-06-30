@@ -1,4 +1,4 @@
-// src/middleware.ts — Next.js route protection
+// src/proxy.ts — Next.js 16 route protection
 import { NextRequest, NextResponse } from 'next/server';
 
 export default function proxy(req: NextRequest) {
