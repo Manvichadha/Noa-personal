@@ -20,7 +20,8 @@ async function handleNoaDecision(draft: any, decision: string, feedback: string 
     const response = await fetch(N8N_NOA_REVIEW_WEBHOOK, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true"
       },
       body: JSON.stringify({
         jobId: draft.jobId,

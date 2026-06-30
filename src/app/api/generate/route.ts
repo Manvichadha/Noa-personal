@@ -59,6 +59,9 @@ export async function POST(req: NextRequest) {
     // Forward the formData exactly as received (preserves binary files)
     const n8nResponse = await fetch(webhookUrl, {
       method: 'POST',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      },
       body: formData,
     });
 
