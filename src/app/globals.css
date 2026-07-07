@@ -5,6 +5,7 @@
    DESIGN TOKENS — extracted from reference UI
    ============================================================ */
 :root {
+  color-scheme: dark;
   /* Backgrounds */
   --bg-app: #000000;
   --bg-card: #0a0a0a;
@@ -907,7 +908,7 @@ a {
    LOADING SKELETON
    ============================================================ */
 .skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #1f1f22 25%, #27272a 50%, #1f1f22 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
   border-radius: var(--radius-md);

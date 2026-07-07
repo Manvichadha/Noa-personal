@@ -287,8 +287,8 @@ export default function NoaTextPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: 5,
               padding: '8px 14px', borderRadius: 10,
-              border: '1px solid var(--border)', background: '#0a0a0a',
-              fontSize: 12.5, fontWeight: 500, color: '#555',
+              border: '1px solid var(--border)', background: 'var(--bg-card)',
+              fontSize: 12.5, fontWeight: 500, color: 'var(--text-secondary)',
               cursor: 'pointer', transition: 'all 0.15s',
             }}
           >
@@ -302,8 +302,8 @@ export default function NoaTextPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: 5,
               padding: '8px 14px', borderRadius: 10,
-              border: '1px solid #bbf7d0', background: '#f0fdf4',
-              fontSize: 12.5, fontWeight: 500, color: '#16a34a',
+              border: '1px solid #064e3b', background: 'var(--status-approved-bg)',
+              fontSize: 12.5, fontWeight: 500, color: 'var(--status-approved-text)',
               cursor: approvingAll ? 'not-allowed' : 'pointer',
               transition: 'all 0.15s', opacity: approvingAll ? 0.6 : 1,
             }}
@@ -315,7 +315,7 @@ export default function NoaTextPage() {
       </div>
 
       {/* Summary stats */}
-      <div style={{ display: 'flex', gap: 1, marginBottom: 28, background: '#efefef', borderRadius: 14, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', gap: 1, marginBottom: 28, background: 'var(--border)', borderRadius: 14, overflow: 'hidden' }}>
         {[
           { label: 'Pending', value: totalDrafts, sub: 'awaiting review' },
           { label: 'Approved', value: approvedSessionCount, sub: 'this session' },
@@ -324,17 +324,17 @@ export default function NoaTextPage() {
         ].map((stat, i) => (
           <div key={i} style={{
             flex: 1, padding: '18px 24px',
-            background: '#0a0a0a',
+            background: 'var(--bg-card)',
             margin: '1px',
             borderRadius: i === 0 ? '13px 0 0 13px' : i === 3 ? '0 13px 13px 0' : '0',
           }}>
-            <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', fontWeight: 600, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               {stat.label}
             </div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.5px', lineHeight: 1 }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.5px', lineHeight: 1 }}>
               {stat.value}
             </div>
-            <div style={{ fontSize: 11.5, color: '#ccc', marginTop: 6 }}>{stat.sub}</div>
+            <div style={{ fontSize: 11.5, color: 'var(--text-tertiary)', marginTop: 6 }}>{stat.sub}</div>
           </div>
         ))}
       </div>
@@ -348,12 +348,12 @@ export default function NoaTextPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '6px 14px', borderRadius: 20,
-              border: selectedPlatform === f.key ? '1px solid #d8d8d8' : '1px solid transparent',
-              background: selectedPlatform === f.key ? '#fff' : 'transparent',
+              border: selectedPlatform === f.key ? '1px solid var(--text-primary)' : '1px solid transparent',
+              background: selectedPlatform === f.key ? 'var(--text-primary)' : 'transparent',
               fontSize: 12.5, fontWeight: selectedPlatform === f.key ? 600 : 400,
-              color: selectedPlatform === f.key ? '#111' : '#999',
+              color: selectedPlatform === f.key ? 'var(--text-inverse)' : 'var(--text-secondary)',
               cursor: 'pointer', transition: 'all 0.15s',
-              boxShadow: selectedPlatform === f.key ? '0 1px 4px rgba(0,0,0,0.06)' : 'none',
+              boxShadow: selectedPlatform === f.key ? '0 1px 4px rgba(255,255,255,0.1)' : 'none',
             }}
           >
             {f.dot && (
@@ -460,28 +460,28 @@ export default function NoaTextPage() {
                             gap: 5,
                             padding: '5px 11px',
                             borderRadius: 8,
-                            border: '1px solid #e4e4e4',
-                            background: isCopied ? '#f0fdf4' : '#fafafa',
-                            color: isCopied ? '#16a34a' : '#888',
+                            border: '1px solid var(--border)',
+                            background: isCopied ? 'var(--status-approved-bg)' : 'var(--bg-input)',
+                            color: isCopied ? 'var(--status-approved-text)' : 'var(--text-secondary)',
                             fontSize: 11.5,
                             fontWeight: 500,
                             cursor: 'pointer',
                             letterSpacing: '-0.1px',
                             transition: 'all 0.18s ease',
-                            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                            boxShadow: '0 1px 2px rgba(0,0,0,0.2)',
                           }}
                           onMouseEnter={e => {
                             if (!isCopied) {
-                              e.currentTarget.style.background = '#f5f5f5';
-                              e.currentTarget.style.color = '#444';
-                              e.currentTarget.style.borderColor = '#d0d0d0';
+                              e.currentTarget.style.background = 'var(--bg-sidebar-hover)';
+                              e.currentTarget.style.color = 'var(--text-primary)';
+                              e.currentTarget.style.borderColor = 'var(--text-secondary)';
                             }
                           }}
                           onMouseLeave={e => {
                             if (!isCopied) {
-                              e.currentTarget.style.background = '#fafafa';
-                              e.currentTarget.style.color = '#888';
-                              e.currentTarget.style.borderColor = '#e4e4e4';
+                              e.currentTarget.style.background = 'var(--bg-input)';
+                              e.currentTarget.style.color = 'var(--text-secondary)';
+                              e.currentTarget.style.borderColor = 'var(--border)';
                             }
                           }}
                         >
@@ -514,7 +514,7 @@ export default function NoaTextPage() {
 
                           {/* Short description row — carries copy btn when there is NO input line */}
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: hasInput ? 4 : 0 }}>
-                            <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
+                            <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: 0 }}>
                               {job.draftShortDescription || 'No description provided.'}
                             </p>
                             {!hasInput && copyBtn}
@@ -545,7 +545,7 @@ export default function NoaTextPage() {
                           onHardReject={() => handleHardReject(jobLI)}
                         />
                       ) : (
-                        <div style={{ padding: '24px 0', textAlign: 'center', color: '#ccc', fontSize: 12.5, border: '1px dashed #eaeaea', borderRadius: 16 }}>
+                        <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-secondary)', fontSize: 12.5, border: '1px dashed var(--border)', borderRadius: 16 }}>
                           Not generated or already reviewed
                         </div>
                       )}
@@ -560,7 +560,7 @@ export default function NoaTextPage() {
                           onHardReject={() => handleHardReject(jobX)}
                         />
                       ) : (
-                        <div style={{ padding: '24px 0', textAlign: 'center', color: '#ccc', fontSize: 12.5, border: '1px dashed #eaeaea', borderRadius: 16 }}>
+                        <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-secondary)', fontSize: 12.5, border: '1px dashed var(--border)', borderRadius: 16 }}>
                           Not generated or already reviewed
                         </div>
                       )}
@@ -575,7 +575,7 @@ export default function NoaTextPage() {
                           onHardReject={() => handleHardReject(jobInsta)}
                         />
                       ) : (
-                        <div style={{ padding: '24px 0', textAlign: 'center', color: '#ccc', fontSize: 12.5, border: '1px dashed #eaeaea', borderRadius: 16 }}>
+                        <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-secondary)', fontSize: 12.5, border: '1px dashed var(--border)', borderRadius: 16 }}>
                           Not generated or already reviewed
                         </div>
                       )}
@@ -603,13 +603,13 @@ export default function NoaTextPage() {
                 <span style={{ fontSize: 12, fontWeight: 700, color: '#e4e4e7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {cfg.label}
                 </span>
-                <span style={{ fontSize: 11, color: '#bbb', fontWeight: 600, background: '#f5f5f5', borderRadius: 20, padding: '2px 9px', marginLeft: 4 }}>
+                <span style={{ fontSize: 11, color: 'var(--text-secondary)', fontWeight: 600, background: 'var(--bg-input)', borderRadius: 20, padding: '2px 9px', marginLeft: 4 }}>
                   {cfg.drafts.length}
                 </span>
               </div>
 
               {cfg.drafts.length === 0 ? (
-                <div style={{ padding: '48px 0', textAlign: 'center', color: '#ccc', fontSize: 13 }}>
+                <div style={{ padding: '48px 0', textAlign: 'center', color: 'var(--text-secondary)', fontSize: 13 }}>
                   No drafts pending for this platform
                 </div>
               ) : (
@@ -624,7 +624,7 @@ export default function NoaTextPage() {
                         <h3 style={{ fontSize: 14.5, fontWeight: 700, color: '#ffffff', margin: '0 0 2px 0' }}>
                           {draft.draftTitle || 'Draft Content'}
                         </h3>
-                        <p style={{ fontSize: 12.5, color: '#666', margin: 0 }}>
+                        <p style={{ fontSize: 12.5, color: 'var(--text-secondary)', margin: 0 }}>
                           {draft.draftShortDescription || 'No description provided.'}
                         </p>
                       </div>

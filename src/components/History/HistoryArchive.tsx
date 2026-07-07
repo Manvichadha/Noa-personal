@@ -147,7 +147,7 @@ export default function HistoryArchive({ role }: { role?: string }) {
         </div>
       ) : filtered.length === 0 ? (
         <EmptyState
-          icon={<Archive size={48} color="#9ca3af" strokeWidth={1.5} />}
+          icon={<Archive size={48} color="var(--text-secondary)" strokeWidth={1.5} />}
           title="No archived content"
           body="Completed, approved, and rejected content will appear here."
         />
@@ -174,8 +174,8 @@ export default function HistoryArchive({ role }: { role?: string }) {
               <div key={item.jobId} className="history-card">
                 {/* Icon */}
                 <div className="history-card-icon" style={{
-                  background: item._type === 'video' ? '#ede9fe' : '#f0fdf4',
-                  color: item._type === 'video' ? '#7c3aed' : '#15803d',
+                  background: item._type === 'video' ? 'var(--status-scheduled-bg)' : 'var(--status-approved-bg)',
+                  color: item._type === 'video' ? 'var(--status-scheduled-text)' : 'var(--status-approved-text)',
                 }}>
                   {item._type === 'video' ? '🎬' : '📝'}
                 </div>
@@ -202,7 +202,7 @@ export default function HistoryArchive({ role }: { role?: string }) {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
                   <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{timeAgo}</span>
                   <span style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>{exactDate}</span>
-                  <code style={{ fontSize: 10, color: 'var(--text-tertiary)', background: '#1f1f22', padding: '2px 6px', borderRadius: 4 }}>
+                  <code style={{ fontSize: 10, color: 'var(--text-tertiary)', background: 'var(--border)', padding: '2px 6px', borderRadius: 4 }}>
                     {item.jobId}
                   </code>
                 </div>
