@@ -508,7 +508,7 @@ export default function NoaTextPage() {
 
                       return (
                         <>
-                          <h3 style={{ fontSize: 16, fontWeight: 700, color: '#ffffff', margin: '0 0 4px 0', paddingRight: 32 }}>
+                          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 4px 0', paddingRight: 32 }}>
                             {job.draftTitle || 'Draft Content'}
                           </h3>
 
@@ -523,7 +523,7 @@ export default function NoaTextPage() {
                           {/* Input row — carries copy btn when present */}
                           {hasInput && (
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                              <p style={{ fontSize: 13, color: '#ffffff', margin: 0, fontWeight: 700 }}>
+                              <p style={{ fontSize: 13, color: 'var(--text-primary)', margin: 0, fontWeight: 700 }}>
                                 Input: {(job as any).inputContent as string}
                               </p>
                               {copyBtn}
@@ -600,7 +600,7 @@ export default function NoaTextPage() {
               {/* Section header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
                 <span style={{ width: 8, height: 8, borderRadius: '50%', background: cfg.dot, display: 'inline-block' }} />
-                <span style={{ fontSize: 12, fontWeight: 700, color: '#e4e4e7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {cfg.label}
                 </span>
                 <span style={{ fontSize: 11, color: 'var(--text-secondary)', fontWeight: 600, background: 'var(--bg-input)', borderRadius: 20, padding: '2px 9px', marginLeft: 4 }}>
@@ -621,7 +621,7 @@ export default function NoaTextPage() {
                   {cfg.drafts.map(draft => (
                     <div key={draft.virtualId} style={{ display: 'flex', flexDirection: 'column' }}>
                       <div style={{ marginBottom: 12 }}>
-                        <h3 style={{ fontSize: 14.5, fontWeight: 700, color: '#ffffff', margin: '0 0 2px 0' }}>
+                        <h3 style={{ fontSize: 14.5, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 2px 0' }}>
                           {draft.draftTitle || 'Draft Content'}
                         </h3>
                         <p style={{ fontSize: 12.5, color: 'var(--text-secondary)', margin: 0 }}>

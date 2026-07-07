@@ -77,7 +77,7 @@ export default function FeedbackModal({
             autoFocus
           />
           {error && (
-            <p style={{ color: '#f87171', fontSize: 13, marginTop: 6, fontWeight: 500 }}>{error}</p>
+            <p style={{ color: 'var(--status-rejected-text)', fontSize: 13, marginTop: 6, fontWeight: 500 }}>{error}</p>
           )}
         </div>
         <div className="modal-footer">

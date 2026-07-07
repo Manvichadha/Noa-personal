@@ -120,7 +120,7 @@ export default function TrackerDashboard() {
               <div className="segments-grid">
                 <div className="segment-bar" style={{ background: '#10b981', height: approvedCount > 0 ? Math.max(8, (approvedCount/safeTotal)*100) + '%' : '0%' }} title="Approved" />
                 <div className="segment-bar" style={{ background: '#ef4444', height: rejectedCount > 0 ? Math.max(8, (rejectedCount/safeTotal)*100) + '%' : '0%' }} title="Declined" />
-                <div className="segment-bar" style={{ background: '#f59e0b', height: pendingCount > 0 ? Math.max(8, (pendingCount/safeTotal)*100) + '%' : '0%' }} title="Pending" />
+                <div className="segment-bar" style={{ background: '#3b82f6', height: pendingCount > 0 ? Math.max(8, (pendingCount/safeTotal)*100) + '%' : '0%' }} title="Pending" />
                 <div className="segment-bar" style={{ background: '#0ea5e9', height: commentedCount > 0 ? Math.max(8, (commentedCount/safeTotal)*100) + '%' : '0%' }} title="Commented" />
               </div>
               
@@ -132,7 +132,7 @@ export default function TrackerDashboard() {
                   <div className="legend-dot" style={{ background: '#ef4444' }} /> Declined ({rejectedCount})
                 </div>
                 <div className="segment-legend-item">
-                  <div className="legend-dot" style={{ background: '#f59e0b' }} /> Pending ({pendingCount})
+                  <div className="legend-dot" style={{ background: '#3b82f6' }} /> Pending ({pendingCount})
                 </div>
                 <div className="segment-legend-item">
                   <div className="legend-dot" style={{ background: '#0ea5e9' }} /> Commented ({commentedCount})
@@ -240,7 +240,7 @@ export default function TrackerDashboard() {
               <svg className="donut-chart-svg" viewBox="0 0 160 160">
                 <circle cx="80" cy="80" r="70" className="donut-circle donut-bg" />
                 <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#0ea5e9', strokeDasharray: `${valCommented} ${totalC}`, strokeDashoffset: 0 }} />
-                <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#f59e0b', strokeDasharray: `${valPending} ${totalC}`, strokeDashoffset: -valCommented }} />
+                <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#3b82f6', strokeDasharray: `${valPending} ${totalC}`, strokeDashoffset: -valCommented }} />
                 <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#ef4444', strokeDasharray: `${valRejected} ${totalC}`, strokeDashoffset: -(valCommented + valPending) }} />
                 <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#10b981', strokeDasharray: `${valApproved} ${totalC}`, strokeDashoffset: -(valCommented + valPending + valRejected) }} />
                 <text x="80" y="75" fill="var(--text-primary)" fontSize="24" fontWeight="800" textAnchor="middle" transform="rotate(90 80 80)">{totalDrafts}</text>
@@ -255,7 +255,7 @@ export default function TrackerDashboard() {
                   <div className="legend-dot" style={{ background: '#ef4444' }}/> Declined
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <div className="legend-dot" style={{ background: '#f59e0b' }}/> Pending
+                  <div className="legend-dot" style={{ background: '#3b82f6' }}/> Pending
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div className="legend-dot" style={{ background: '#0ea5e9' }}/> Commented

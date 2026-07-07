@@ -139,7 +139,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
         {/* Previous feedback shown */}
         {draft.noaPromptFeedback && (
           <div style={{ padding: '0 18px 12px' }}>
-            <div style={{ background: '#3f1111', border: '1px solid #7f1d1d', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#fca5a5' }}>
+            <div style={{ background: 'var(--status-pending-founders-bg)', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: 'var(--status-pending-founders-text)' }}>
               <strong style={{ display: 'block', marginBottom: 4, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 Previous prompt feedback
               </strong>
@@ -149,7 +149,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
         )}
         {draft.noaVideoFeedback && (
           <div style={{ padding: '0 18px 12px' }}>
-            <div style={{ background: '#3f1111', border: '1px solid #7f1d1d', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#fca5a5' }}>
+            <div style={{ background: 'var(--status-pending-founders-bg)', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: 'var(--status-pending-founders-text)' }}>
               <strong style={{ display: 'block', marginBottom: 4, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 Previous video feedback
               </strong>
@@ -203,20 +203,20 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   onClick={() => setRejectOpen(true)}
                   style={{
                     flex: 1, padding: '9px', borderRadius: 10,
-                    border: '1px solid #e5e5e5', background: '#111111',
-                    fontSize: 13, fontWeight: 500, color: '#555',
+                    border: '1px solid var(--border)', background: 'var(--bg-input)',
+                    fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)',
                     cursor: 'pointer', transition: 'all 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                   }}
                   onMouseEnter={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
-                    (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--status-rejected-bg)';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--status-rejected-bg)';
+                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--status-rejected-text)';
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
-                    (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-input)';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary)';
                   }}
                 >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -231,21 +231,21 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   disabled={approving}
                   style={{
                     flex: 1, padding: '9px', borderRadius: 10,
-                    border: '1px solid #d1fae5', background: '#f0fdf4',
-                    fontSize: 13, fontWeight: 500, color: '#16a34a',
+                    border: '1px solid var(--status-approved-bg)', background: 'var(--status-approved-bg)',
+                    fontSize: 13, fontWeight: 500, color: 'var(--status-approved-text)',
                     cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                     opacity: approving ? 0.6 : 1,
                   }}
                   onMouseEnter={e => {
                     if (!approving) {
-                      (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
+                      (e.currentTarget as HTMLButtonElement).style.background = '#022c22';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#022c22';
                     }
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--status-approved-bg)';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--status-approved-bg)';
                   }}
                 >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -259,20 +259,20 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   onClick={() => setRejectOpen(true)}
                   style={{
                     flex: 1, padding: '9px', borderRadius: 10,
-                    border: '1px solid #e5e5e5', background: '#111111',
-                    fontSize: 13, fontWeight: 500, color: '#555',
+                    border: '1px solid var(--border)', background: 'var(--bg-input)',
+                    fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)',
                     cursor: 'pointer', transition: 'all 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                   }}
                   onMouseEnter={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
-                    (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--status-rejected-bg)';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--status-rejected-bg)';
+                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--status-rejected-text)';
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
-                    (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-input)';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary)';
                   }}
                 >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -287,21 +287,21 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   disabled={approving}
                   style={{
                     flex: 1, padding: '9px', borderRadius: 10,
-                    border: '1px solid #d1fae5', background: '#f0fdf4',
-                    fontSize: 13, fontWeight: 500, color: '#16a34a',
+                    border: '1px solid var(--status-approved-bg)', background: 'var(--status-approved-bg)',
+                    fontSize: 13, fontWeight: 500, color: 'var(--status-approved-text)',
                     cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                     opacity: approving ? 0.6 : 1,
                   }}
                   onMouseEnter={e => {
                     if (!approving) {
-                      (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
+                      (e.currentTarget as HTMLButtonElement).style.background = '#022c22';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#022c22';
                     }
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--status-approved-bg)';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--status-approved-bg)';
                   }}
                 >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
