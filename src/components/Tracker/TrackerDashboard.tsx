@@ -100,7 +100,7 @@ export default function TrackerDashboard() {
               </div>
               
               <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
-                <div style={{ flex: 1, background: '#1f1f22', height: 6, borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ flex: 1, background: 'var(--border)', height: 6, borderRadius: 3, overflow: 'hidden' }}>
                   <div style={{ width: totalDrafts > 0 ? `${(approvedCount / totalDrafts) * 100}%` : '0%', background: '#10b981', height: '100%' }} />
                 </div>
               </div>
@@ -214,7 +214,7 @@ export default function TrackerDashboard() {
               </div>
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="action-icon-wrap" style={{ background: 'var(--status-pending-noa-bg)', color: 'var(--status-pending-noa-text)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Hourglass size={14} strokeWidth={2.5} />
                   </div>
                   Pending Noa
@@ -223,7 +223,7 @@ export default function TrackerDashboard() {
               </div>
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#e0f2fe', color: '#0284c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="action-icon-wrap" style={{ background: 'var(--status-revision-bg)', color: 'var(--status-revision-text)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <PencilLine size={14} strokeWidth={2.5} />
                   </div>
                   Commented
@@ -243,8 +243,8 @@ export default function TrackerDashboard() {
                 <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#f59e0b', strokeDasharray: `${valPending} ${totalC}`, strokeDashoffset: -valCommented }} />
                 <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#ef4444', strokeDasharray: `${valRejected} ${totalC}`, strokeDashoffset: -(valCommented + valPending) }} />
                 <circle cx="80" cy="80" r="70" className="donut-circle" style={{ stroke: '#10b981', strokeDasharray: `${valApproved} ${totalC}`, strokeDashoffset: -(valCommented + valPending + valRejected) }} />
-                <text x="80" y="75" fill="#111827" fontSize="24" fontWeight="800" textAnchor="middle" transform="rotate(90 80 80)">{totalDrafts}</text>
-                <text x="80" y="95" fill="#9ca3af" fontSize="10" fontWeight="700" textAnchor="middle" transform="rotate(90 80 80)">TOTAL</text>
+                <text x="80" y="75" fill="var(--text-primary)" fontSize="24" fontWeight="800" textAnchor="middle" transform="rotate(90 80 80)">{totalDrafts}</text>
+                <text x="80" y="95" fill="var(--text-secondary)" fontSize="10" fontWeight="700" textAnchor="middle" transform="rotate(90 80 80)">TOTAL</text>
               </svg>
 
               <div className="donut-legend">

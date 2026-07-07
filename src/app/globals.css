@@ -20,8 +20,8 @@
   --accent-amber-light: #452a03;
 
   /* Status colours */
-  --status-pending-noa-bg: #450a0a;
-  --status-pending-noa-text: #fecaca;
+  --status-pending-noa-bg: #452a03;
+  --status-pending-noa-text: #fde68a;
   --status-pending-founders-bg: #1e3a8a;
   --status-pending-founders-text: #bfdbfe;
   --status-approved-bg: #064e3b;

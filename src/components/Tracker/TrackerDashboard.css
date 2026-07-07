@@ -276,20 +276,20 @@
   text-transform: uppercase;
 }
 .recent-badge.ready {
-  background: #d1fae5;
-  color: #059669;
+  background: var(--status-approved-bg);
+  color: var(--status-approved-text);
 }
 .recent-badge.error {
-  background: #fee2e2;
-  color: #ef4444;
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-text);
 }
 .recent-badge.pending {
-  background: #fef3c7;
-  color: #d97706;
+  background: var(--status-pending-noa-bg);
+  color: var(--status-pending-noa-text);
 }
 .recent-badge.commented {
-  background: #e0f2fe;
-  color: #0284c7;
+  background: var(--status-revision-bg);
+  color: var(--status-revision-text);
 }
 
 /* Quick Actions Sidebar Card */

@@ -212,11 +212,11 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
         {draft.noaFeedback && (
           <div style={{ padding: '10px 20px 0' }}>
             <div style={{
-              background: '#eff2ff', borderRadius: 10,
-              padding: '10px 14px', fontSize: 12.5, color: '#1e40af',
-              border: '1px solid #a5b4fc',
+              background: 'var(--status-pending-founders-bg)', borderRadius: 10,
+              padding: '10px 14px', fontSize: 12.5, color: 'var(--status-pending-founders-text)',
+              border: '1px solid #1d4ed8',
             }}>
-              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#2B3CE3', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Previous feedback
               </span>
               {draft.noaFeedback}
