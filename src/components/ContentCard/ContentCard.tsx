@@ -25,7 +25,7 @@ interface ContentCardProps {
 }
 
 const PLATFORM_COLORS: Record<string, { dot: string; text: string; label: string }> = {
-  X:         { dot: '#000000', text: '#111827', label: 'X' },
+  X:         { dot: '#e5e5e5', text: '#e5e5e5', label: 'X' },
   LinkedIn:  { dot: '#0077b5', text: '#0077b5', label: 'LinkedIn' },
   Instagram: { dot: '#e1306c', text: '#e1306c', label: 'Instagram' },
 };
@@ -280,27 +280,27 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
           <div style={{
             display: 'flex', gap: 8, padding: '14px 20px 16px',
             marginTop: 10,
-            borderTop: '1px solid #f5f5f5',
+            borderTop: '1px solid var(--border)',
           }}>
             {mode === 'noa' && onHardReject && (
               <button
                 onClick={() => setHardRejectOpen(true)}
                 style={{
                   flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #e5e5e5', background: '#111111',
-                  fontSize: 13, fontWeight: 500, color: '#555',
+                  border: '1px solid var(--border)', background: 'var(--bg-input)',
+                  fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)',
                   cursor: 'pointer', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fff0f0';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                  (e.currentTarget as HTMLButtonElement).style.background = 'var(--status-rejected-bg)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--status-rejected-bg)';
+                  (e.currentTarget as HTMLButtonElement).style.color = 'var(--status-rejected-text)';
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                  (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-input)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+                  (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary)';
                 }}
               >
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -314,20 +314,20 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
                 onClick={() => setRejectOpen(true)}
                 style={{
                   flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #e5e5e5', background: '#111111',
-                  fontSize: 13, fontWeight: 500, color: '#555',
+                  border: '1px solid var(--border)', background: 'var(--bg-input)',
+                  fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)',
                   cursor: 'pointer', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#f8fafc';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#cbd5e1';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#334155';
+                  (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-sidebar-hover)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--text-secondary)';
+                  (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-primary)';
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#fafafa';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#e5e5e5';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#555';
+                  (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-input)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+                  (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary)';
                 }}
               >
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
@@ -343,21 +343,21 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
                 disabled={approving}
                 style={{
                   flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #d1fae5', background: '#f0fdf4',
-                  fontSize: 13, fontWeight: 500, color: '#16a34a',
+                  border: '1px solid var(--status-approved-bg)', background: 'var(--status-approved-bg)',
+                  fontSize: 13, fontWeight: 500, color: 'var(--status-approved-text)',
                   cursor: approving ? 'not-allowed' : 'pointer', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                   opacity: approving ? 0.6 : 1,
                 }}
                 onMouseEnter={e => {
                   if (!approving) {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#dcfce7';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#86efac';
+                    (e.currentTarget as HTMLButtonElement).style.background = '#022c22';
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = '#022c22';
                   }
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#f0fdf4';
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = '#d1fae5';
+                  (e.currentTarget as HTMLButtonElement).style.background = 'var(--status-approved-bg)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--status-approved-bg)';
                 }}
               >
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

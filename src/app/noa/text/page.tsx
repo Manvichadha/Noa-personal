@@ -262,7 +262,7 @@ export default function NoaTextPage() {
   const PLATFORM_FILTERS: { key: 'all' | 'linkedin' | 'x' | 'instagram'; label: string; dot: string }[] = [
     { key: 'all', label: 'All', dot: '' },
     { key: 'linkedin', label: 'LinkedIn', dot: '#0077b5' },
-    { key: 'x', label: 'X', dot: '#111827' },
+    { key: 'x', label: 'X', dot: '#e5e5e5' },
     { key: 'instagram', label: 'Instagram', dot: '#e1306c' },
   ];
 
@@ -591,7 +591,7 @@ export default function NoaTextPage() {
         (() => {
           const cfg = {
             linkedin: { label: 'LinkedIn', dot: '#0077b5', drafts: sortedLinkedIn },
-            x: { label: 'X (Twitter)', dot: '#111827', drafts: sortedX },
+            x: { label: 'X (Twitter)', dot: '#e5e5e5', drafts: sortedX },
             instagram: { label: 'Instagram', dot: '#e1306c', drafts: sortedInsta },
           }[selectedPlatform as 'linkedin' | 'x' | 'instagram'];
 
