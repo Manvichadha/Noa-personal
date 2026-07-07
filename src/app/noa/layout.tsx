@@ -1,6 +1,6 @@
 'use client';
 // src/app/noa/layout.tsx
-import Sidebar, { TextIcon, VideoIcon, TrackerIcon, HistoryIcon, SparklesIcon } from '@/components/Sidebar/Sidebar';
+import Sidebar, { TextIcon, VideoIcon, TrackerIcon, HistoryIcon, SparklesIcon, CodeIcon } from '@/components/Sidebar/Sidebar';
 import useSWR from 'swr';
 import { ContentDraft } from '@/lib/types';
 import { getPlatformStatus } from '@/lib/utils';
@@ -56,6 +56,11 @@ export default function NoaLayout({ children }: { children: React.ReactNode }) {
       href: '/noa/history',
       icon: <HistoryIcon />,
       label: 'History',
+    },
+    {
+      href: '/noa/prompts',
+      icon: <CodeIcon />,
+      label: 'System Prompts',
     },
   ];
 

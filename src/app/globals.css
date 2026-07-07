@@ -64,6 +64,9 @@
 
   /* Transitions */
   --transition: all 0.18s ease;
+
+  /* Misc */
+  --bg-hover: #1a1a1a;
 }
 
 /* ============================================================
@@ -469,7 +472,7 @@ a {
   justify-content: space-between;
   padding: 12px 18px;
   border-top: 1px solid var(--border);
-  background: #fafafa;
+  background: var(--bg-card);
 }
 
 .card-actions {
@@ -841,7 +844,7 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-secondary);
-  background: #fafafa;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--border);
 }
 
@@ -858,7 +861,7 @@ a {
 }
 
 .tracker-table tr:hover td {
-  background: #fafafa;
+  background: var(--bg-sidebar-hover);
 }
 
 .content-preview {

@@ -133,10 +133,11 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
               ))}
             </span>
             {draft.generationStage === 'agent_1' && 'Extracting & categorising…'}
-            {draft.generationStage === 'agent_2' && 'Generating hooks & angles…'}
-            {draft.generationStage === 'agent_3' && 'Writing long-form copy…'}
-            {draft.generationStage === 'agent_4' && 'Brand compliance check…'}
-            {draft.generationStage === 'agent_5' && 'Platform formatting…'}
+            {draft.generationStage === 'agent_2' && 'Generating ideas & hooks…'}
+            {draft.generationStage === 'agent_3' && 'Ranking & selecting…'}
+            {draft.generationStage === 'agent_4' && 'Writing content drafts…'}
+            {draft.generationStage === 'agent_5' && 'Brand compliance check…'}
+            {draft.generationStage === 'agent_6' && 'Platform formatting…'}
             {draft.generationStage === 'socialbee' && 'Sending to SocialBee…'}
           </div>
         )}
