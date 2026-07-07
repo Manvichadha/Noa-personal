@@ -106,12 +106,12 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
         paddingBottom: hasActions ? 0 : 18,
       }}
         onMouseEnter={e => {
-          (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)';
-          (e.currentTarget as HTMLDivElement).style.borderColor = '#e4e4e4';
+          (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
+          (e.currentTarget as HTMLDivElement).style.borderColor = '#52525b';
         }}
         onMouseLeave={e => {
           (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)';
-          (e.currentTarget as HTMLDivElement).style.borderColor = '#f0f0f0';
+          (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)';
         }}
       >
         {/* Generating indicator */}
@@ -120,7 +120,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '8px 20px',
             background: '#111111',
-            borderBottom: '1px solid #f5f5f5',
+            borderBottom: '1px solid var(--border)',
             fontSize: 12, color: '#888', fontWeight: 500,
           }}>
             <span style={{ display: 'flex', gap: 3 }}>
@@ -193,8 +193,8 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
             overflowY: 'auto',
             fontSize: 13.5,
             lineHeight: 1.65,
-            color: '#1a1a1a',
-            background: '#111111',
+            color: 'var(--text-secondary)',
+            background: 'var(--bg-input)',
             borderRadius: 10,
             padding: '12px 14px',
             border: '1px solid var(--border)',
