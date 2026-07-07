@@ -287,7 +287,7 @@ export default function NoaTextPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: 5,
               padding: '8px 14px', borderRadius: 10,
-              border: '1px solid #e8e8e8', background: '#fff',
+              border: '1px solid var(--border)', background: '#0a0a0a',
               fontSize: 12.5, fontWeight: 500, color: '#555',
               cursor: 'pointer', transition: 'all 0.15s',
             }}
@@ -324,14 +324,14 @@ export default function NoaTextPage() {
         ].map((stat, i) => (
           <div key={i} style={{
             flex: 1, padding: '18px 24px',
-            background: '#fff',
+            background: '#0a0a0a',
             margin: '1px',
             borderRadius: i === 0 ? '13px 0 0 13px' : i === 3 ? '0 13px 13px 0' : '0',
           }}>
             <div style={{ fontSize: 11, color: '#aaa', fontWeight: 600, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               {stat.label}
             </div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: '#111', letterSpacing: '-0.5px', lineHeight: 1 }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.5px', lineHeight: 1 }}>
               {stat.value}
             </div>
             <div style={{ fontSize: 11.5, color: '#ccc', marginTop: 6 }}>{stat.sub}</div>
@@ -365,7 +365,7 @@ export default function NoaTextPage() {
       </div>
 
       {error && (
-        <div style={{ padding: '14px 18px', background: '#fff0f0', borderRadius: 10, color: '#dc2626', marginBottom: 20, fontSize: 13, border: '1px solid #fecaca' }}>
+        <div style={{ padding: '14px 18px', background: '#331111', borderRadius: 10, color: '#f87171', marginBottom: 20, fontSize: 13, border: '1px solid #7f1d1d' }}>
           ⚠ Failed to load. Check your MongoDB connection.
         </div>
       )}
@@ -435,7 +435,7 @@ export default function NoaTextPage() {
                 <div key={job.jobId} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {/* Job Header */}
                   <div style={{
-                    background: '#fff', borderRadius: 12, border: '1px solid #eaeaea',
+                    background: '#0a0a0a', borderRadius: 12, border: '1px solid var(--border)',
                     padding: '16px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
                     position: 'relative'
                   }}>
@@ -508,7 +508,7 @@ export default function NoaTextPage() {
 
                       return (
                         <>
-                          <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111', margin: '0 0 4px 0', paddingRight: 32 }}>
+                          <h3 style={{ fontSize: 16, fontWeight: 700, color: '#ffffff', margin: '0 0 4px 0', paddingRight: 32 }}>
                             {job.draftTitle || 'Draft Content'}
                           </h3>
 
@@ -523,7 +523,7 @@ export default function NoaTextPage() {
                           {/* Input row — carries copy btn when present */}
                           {hasInput && (
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                              <p style={{ fontSize: 13, color: '#111', margin: 0, fontWeight: 700 }}>
+                              <p style={{ fontSize: 13, color: '#ffffff', margin: 0, fontWeight: 700 }}>
                                 Input: {(job as any).inputContent as string}
                               </p>
                               {copyBtn}
@@ -600,7 +600,7 @@ export default function NoaTextPage() {
               {/* Section header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
                 <span style={{ width: 8, height: 8, borderRadius: '50%', background: cfg.dot, display: 'inline-block' }} />
-                <span style={{ fontSize: 12, fontWeight: 700, color: '#333', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#e4e4e7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {cfg.label}
                 </span>
                 <span style={{ fontSize: 11, color: '#bbb', fontWeight: 600, background: '#f5f5f5', borderRadius: 20, padding: '2px 9px', marginLeft: 4 }}>
@@ -621,7 +621,7 @@ export default function NoaTextPage() {
                   {cfg.drafts.map(draft => (
                     <div key={draft.virtualId} style={{ display: 'flex', flexDirection: 'column' }}>
                       <div style={{ marginBottom: 12 }}>
-                        <h3 style={{ fontSize: 14.5, fontWeight: 700, color: '#111', margin: '0 0 2px 0' }}>
+                        <h3 style={{ fontSize: 14.5, fontWeight: 700, color: '#ffffff', margin: '0 0 2px 0' }}>
                           {draft.draftTitle || 'Draft Content'}
                         </h3>
                         <p style={{ fontSize: 12.5, color: '#666', margin: 0 }}>

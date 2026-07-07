@@ -102,7 +102,7 @@ export default function NoaVideoPage() {
       </div>
 
       {hasError && (
-        <div style={{ padding: '16px', background: '#fee2e2', borderRadius: 10, color: '#991b1b', marginBottom: 20, fontSize: 14 }}>
+        <div style={{ padding: '16px', background: '#450a0a', borderRadius: 10, color: '#fca5a5', marginBottom: 20, fontSize: 14 }}>
           ⚠ Failed to load. Check your MongoDB connection.
         </div>
       )}

@@ -183,7 +183,7 @@ export default function GenerateContent() {
                   borderRadius: 14,
                   padding: '56px 20px',
                   textAlign: 'center',
-                  background: isDragOver ? '#f3f4f6' : '#fafafa',
+                  background: isDragOver ? 'var(--bg-sidebar-hover)' : 'var(--bg-input)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                 }}

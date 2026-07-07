@@ -85,9 +85,8 @@ export default function LoginPage() {
       {/* ── LEFT PANEL ── */}
       <div className="login-left">
         {/* Logo */}
-        <Link href="/" className="login-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '4px', height: '22px', backgroundColor: '#B91C1C' }}></div>
-          <span style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '3px', color: '#fff', margin: 0, lineHeight: 1 }}>VANCO</span>
+        <Link href="/" className="login-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          <img src="/bleukei-logo-dark.png" alt="bleukei" style={{ height: 48, objectFit: 'contain' }} />
         </Link>
 
         {/* Main copy */}

@@ -100,11 +100,11 @@ export default function TrackerDashboard() {
               </div>
               
               <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
-                <div style={{ flex: 1, background: '#f3f4f6', height: 6, borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ flex: 1, background: '#1f1f22', height: 6, borderRadius: 3, overflow: 'hidden' }}>
                   <div style={{ width: totalDrafts > 0 ? `${(approvedCount / totalDrafts) * 100}%` : '0%', background: '#10b981', height: '100%' }} />
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 8, fontWeight: 600 }}>
+              <div style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 8, fontWeight: 600 }}>
                 {approvedCount} approved out of {totalDrafts} total
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function TrackerDashboard() {
                 );
               })}
               {topRecent.length === 0 && (
-                <div style={{ color: '#9ca3af', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>No recent drafts</div>
+                <div style={{ color: 'var(--text-tertiary)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>No recent drafts</div>
               )}
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function TrackerDashboard() {
             <div className="action-list">
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="action-icon-wrap" style={{ background: '#064e3b', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Check size={14} strokeWidth={3} />
                   </div>
                   Approved
@@ -205,7 +205,7 @@ export default function TrackerDashboard() {
               </div>
               <div className="action-item">
                 <div className="action-item-left">
-                  <div className="action-icon-wrap" style={{ background: '#fee2e2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="action-icon-wrap" style={{ background: '#450a0a', color: '#f87171', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <X size={14} strokeWidth={3} />
                   </div>
                   Declined

@@ -34,8 +34,8 @@ const STATUS_MAP: Record<string, { label: string; color: string }> = {
   ready_for_noa_review:        { label: 'Ready for review', color: '#f59e0b' },
   pending_noa:                 { label: 'Pending review',   color: '#f59e0b' },
   approved_noa:                { label: 'Approved',         color: '#10b981' },
-  rejected_noa:                { label: 'Rejected',         color: '#ef4444' },
-  rejected_permanently:        { label: 'Rejected',         color: '#ef4444' },
+  rejected_noa:                { label: 'Rejected',         color: '#f87171' },
+  rejected_permanently:        { label: 'Rejected',         color: '#f87171' },
   posted:                      { label: 'Posted',           color: '#14b8a6' },
   scheduled:                   { label: 'Scheduled',        color: '#8b5cf6' },
   formatting_parse_failed:     { label: 'Formatting Error', color: '#f43f5e' },
@@ -67,7 +67,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
   const effectiveStatus = vPlatform
     ? getPlatformStatus(pStatuses[vPlatform], draft.draftStatus)
     : draft.draftStatus;
-  const statusCfg   = STATUS_MAP[effectiveStatus] || { label: effectiveStatus, color: '#9ca3af' };
+  const statusCfg   = STATUS_MAP[effectiveStatus] || { label: effectiveStatus, color: 'var(--text-tertiary)' };
 
   const hasAgentOutputs = draft.agent1Output || draft.agent2Output || draft.agent3Output;
   const hasActions = !!(onApprove || onReject || onHardReject || onComment || onDisapprove);
@@ -97,9 +97,9 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
     <>
       {/* Card shell */}
       <div style={{
-        background: '#ffffff',
+        background: 'var(--bg-card)',
         borderRadius: 16,
-        border: '1px solid #f0f0f0',
+        border: '1px solid var(--border)',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
         overflow: 'hidden',
         transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
@@ -119,7 +119,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '8px 20px',
-            background: '#fafafa',
+            background: '#111111',
             borderBottom: '1px solid #f5f5f5',
             fontSize: 12, color: '#888', fontWeight: 500,
           }}>
@@ -155,7 +155,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
             }} />
             <span style={{
               fontSize: 12, fontWeight: 600,
-              color: '#111', letterSpacing: '-0.01em',
+              color: '#ffffff', letterSpacing: '-0.01em',
             }}>
               {platformCfg.label}
             </span>
@@ -194,10 +194,10 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
             fontSize: 13.5,
             lineHeight: 1.65,
             color: '#1a1a1a',
-            background: '#fafafa',
+            background: '#111111',
             borderRadius: 10,
             padding: '12px 14px',
-            border: '1px solid #f0f0f0',
+            border: '1px solid var(--border)',
             whiteSpace: 'pre-wrap',
             scrollbarWidth: 'thin',
             scrollbarColor: '#e5e5e5 transparent',
@@ -212,11 +212,11 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
         {draft.noaFeedback && (
           <div style={{ padding: '10px 20px 0' }}>
             <div style={{
-              background: '#fef2f2', borderRadius: 10,
-              padding: '10px 14px', fontSize: 12.5, color: '#991b1b',
-              border: '1px solid #fca5a5',
+              background: '#eff2ff', borderRadius: 10,
+              padding: '10px 14px', fontSize: 12.5, color: '#1e40af',
+              border: '1px solid #a5b4fc',
             }}>
-              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#B91C1C', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <span style={{ fontWeight: 600, display: 'block', marginBottom: 4, fontSize: 11, color: '#2B3CE3', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Previous feedback
               </span>
               {draft.noaFeedback}
@@ -259,13 +259,13 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
                   { label: 'Platform Format',   value: draft.agent5Output },
                 ].filter(a => a.value).map(a => (
                   <div key={a.label} style={{
-                    background: '#f7f7f7', borderRadius: 8,
+                    background: '#141414', borderRadius: 8,
                     padding: '8px 12px', border: '1px solid #efefef',
                   }}>
                     <div style={{ fontSize: 10.5, fontWeight: 700, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
                       {a.label}
                     </div>
-                    <div style={{ fontSize: 12.5, color: '#444', whiteSpace: 'pre-wrap', maxHeight: 100, overflowY: 'auto', lineHeight: 1.5 }}>
+                    <div style={{ fontSize: 12.5, color: '#e4e4e7', whiteSpace: 'pre-wrap', maxHeight: 100, overflowY: 'auto', lineHeight: 1.5 }}>
                       {extractText(a.value)}
                     </div>
                   </div>
@@ -287,7 +287,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
                 onClick={() => setHardRejectOpen(true)}
                 style={{
                   flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #e5e5e5', background: '#fafafa',
+                  border: '1px solid #e5e5e5', background: '#111111',
                   fontSize: 13, fontWeight: 500, color: '#555',
                   cursor: 'pointer', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
@@ -314,7 +314,7 @@ export default function ContentCard({ draft, onApprove, onReject, onHardReject, 
                 onClick={() => setRejectOpen(true)}
                 style={{
                   flex: 1, padding: '9px', borderRadius: 10,
-                  border: '1px solid #e5e5e5', background: '#fafafa',
+                  border: '1px solid #e5e5e5', background: '#111111',
                   fontSize: 13, fontWeight: 500, color: '#555',
                   cursor: 'pointer', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,

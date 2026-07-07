@@ -202,7 +202,7 @@ export default function HistoryArchive({ role }: { role?: string }) {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
                   <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{timeAgo}</span>
                   <span style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>{exactDate}</span>
-                  <code style={{ fontSize: 10, color: 'var(--text-tertiary)', background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>
+                  <code style={{ fontSize: 10, color: 'var(--text-tertiary)', background: '#1f1f22', padding: '2px 6px', borderRadius: 4 }}>
                     {item.jobId}
                   </code>
                 </div>

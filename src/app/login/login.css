@@ -54,13 +54,13 @@
 .login-logo-icon {
   width: 38px;
   height: 38px;
-  background: #B91C1C;
+  background: #2B3CE3;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  box-shadow: 0 4px 16px rgba(185,28,28,0.5);
+  box-shadow: 0 4px 16px rgba(43,60,227,0.5);
 }
 
 .login-logo-name {
@@ -82,7 +82,7 @@
 .login-welcome {
   font-size: 13px;
   font-weight: 600;
-  color: #B91C1C;
+  color: #2B3CE3;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   margin-bottom: 14px;
@@ -98,7 +98,7 @@
 }
 
 .login-headline-accent {
-  color: #B91C1C;
+  color: #2B3CE3;
   display: block;
 }
 
@@ -235,15 +235,15 @@
 }
 
 .login-role-label:hover {
-  border-color: #fca5a5;
-  background: #fef2f2;
+  border-color: #818cf8;
+  background: #eef2ff;
 }
 
 .login-role-option input:checked + .login-role-label {
-  border-color: #B91C1C;
-  background: #fef2f2;
-  color: #B91C1C;
-  box-shadow: 0 0 0 3px rgba(185,28,28,0.08);
+  border-color: #2B3CE3;
+  background: #eef2ff;
+  color: #2B3CE3;
+  box-shadow: 0 0 0 3px rgba(43,60,227,0.08);
 }
 
 .login-role-icon {
@@ -259,12 +259,12 @@
 }
 
 .login-role-option input:checked + .login-role-label .login-role-icon {
-  background: #fee2e2;
+  background: #e0e7ff;
 }
 
 .login-role-name { font-size: 13px; font-weight: 700; }
 .login-role-desc { font-size: 11px; font-weight: 400; color: #9ca3af; margin-top: 2px; }
-.login-role-option input:checked + .login-role-label .login-role-desc { color: #B91C1C; }
+.login-role-option input:checked + .login-role-label .login-role-desc { color: #2B3CE3; }
 
 /* Sign in button */
 .login-btn-submit {
@@ -347,11 +347,11 @@
   align-items: center;
   gap: 8px;
   padding: 12px 14px;
-  background: #fee2e2;
-  border: 1px solid #fca5a5;
+  background: #e0e7ff;
+  border: 1px solid #818cf8;
   border-radius: 8px;
   font-size: 13px;
-  color: #991b1b;
+  color: #3730a3;
   font-weight: 500;
   margin-bottom: 16px;
 }
@@ -371,7 +371,7 @@
   margin-bottom: 16px;
 }
 .login-success svg {
-  color: #B91C1C;
+  color: #2B3CE3;
 }
 
 /* Credentials hint */

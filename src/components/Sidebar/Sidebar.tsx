@@ -16,11 +16,13 @@ interface SidebarProps {
 }
 
 const BrandLogo = () => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', paddingLeft: '4px' }}>
-    <div style={{ width: '3px', height: '16px', backgroundColor: '#B91C1C' }}></div>
-    <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VANCO</span>
-  </div>
+  <img
+    src="/bleukei-logo-dark.png"
+    alt="bleukei"
+    style={{ width: 64, height: 64, objectFit: 'contain' }}
+  />
 );
+
 
 const TextIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -86,7 +88,7 @@ export default function Sidebar({ role, navItems }: SidebarProps) {
   // Role display
   const roleLabel = 'Noa';
   const roleInitial = 'N';
-  const roleColor = '#B91C1C';
+  const roleColor = '#2B3CE3';
 
   const dashboardHome = '/noa/tracker';
 
@@ -154,9 +156,9 @@ export default function Sidebar({ role, navItems }: SidebarProps) {
             transition: 'var(--transition)',
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLButtonElement).style.background = '#fee2e2';
-            (e.currentTarget as HTMLButtonElement).style.borderColor = '#fca5a5';
-            (e.currentTarget as HTMLButtonElement).style.color = '#ef4444';
+            (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-sidebar-hover)';
+            (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border-focus)';
+            (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-primary)';
           }}
           onMouseLeave={e => {
             (e.currentTarget as HTMLButtonElement).style.background = 'none';

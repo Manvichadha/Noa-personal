@@ -9,9 +9,8 @@ export default function LandingPage() {
       {/* ── NAVBAR ── */}
       <nav className="lp-nav">
         <div className="lp-nav-inner">
-          <Link href="/" className="lp-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '4px', height: '20px', backgroundColor: '#B91C1C' }}></div>
-            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VANCO</span>
+          <Link href="/" className="lp-logo" style={{ textDecoration: 'none' }}>
+            <img src="/bleukei-logo-dark.png" alt="bleukei" style={{ height: 48, objectFit: 'contain' }} />
           </Link>
 
           <ul className="lp-nav-links">
@@ -33,13 +32,13 @@ export default function LandingPage() {
       <section className="lp-hero">
         <div className="lp-hero-inner">
           <div className="lp-hero-pill">
-            <span className="lp-hero-pill-dot" style={{ background: '#B91C1C' }}></span>
+            <span className="lp-hero-pill-dot" style={{ background: '#2B3CE3' }}></span>
             AI-Powered Content Review Platform
           </div>
 
           <h1 className="lp-hero-h1">
             Content Generation<br />
-            <span className="lp-hero-gradient" style={{ background: 'none', color: '#B91C1C', WebkitTextFillColor: 'initial' }}>& Approval Agent</span>
+            <span className="lp-hero-gradient" style={{ background: 'none', color: '#2B3CE3', WebkitTextFillColor: 'initial' }}>& Approval Agent</span>
           </h1>
 
           <p className="lp-hero-sub">
@@ -78,10 +77,10 @@ export default function LandingPage() {
       </section>
 
       {/* ── PROBLEM ── */}
-      <section className="lp-section" style={{ background: '#f8faff' }}>
+      <section className="lp-section" style={{ background: '#111111' }}>
         <div className="lp-section-inner">
           <div className="lp-section-label">The Problem We Solve</div>
-          <h2 className="lp-section-title">AI content without humans<br /><span style={{ color: '#B91C1C' }}>is a liability</span></h2>
+          <h2 className="lp-section-title">AI content without humans<br /><span style={{ color: '#2B3CE3' }}>is a liability</span></h2>
           <p className="lp-section-sub">
             Publishing unreviewed AI content damages brand trust. Important edits and strategic decisions get lost without a structured review layer.
           </p>
@@ -107,18 +106,18 @@ export default function LandingPage() {
       </section>
 
       {/* ── FEATURES ── */}
-      <section className="lp-section" id="features" style={{ background: '#fff' }}>
+      <section className="lp-section light-section-override" id="features">
         <div className="lp-section-inner">
           <div className="lp-section-label">Our Solution</div>
           <h2 className="lp-section-title">Four powerful review layers</h2>
-          <p className="lp-section-sub" style={{ color: '#B91C1C' }}>
+          <p className="lp-section-sub" style={{ color: '#2B3CE3' }}>
             Purpose-built dashboards for every stage of the content pipeline.
           </p>
 
           <div className="lp-features-grid">
             <div className="lp-feature-card">
               <div className="lp-feature-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FileText size={24} color="#B91C1C" strokeWidth={1.5} />
+                <FileText size={24} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-feature-title">Text Review</div>
               <div className="lp-feature-desc">
@@ -127,7 +126,7 @@ export default function LandingPage() {
             </div>
             <div className="lp-feature-card featured">
               <div className="lp-feature-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Clapperboard size={24} color="#B91C1C" strokeWidth={1.5} />
+                <Clapperboard size={24} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-feature-title">Video Review</div>
               <div className="lp-feature-desc">
@@ -136,7 +135,7 @@ export default function LandingPage() {
             </div>
             <div className="lp-feature-card">
               <div className="lp-feature-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <CheckSquare size={24} color="#B91C1C" strokeWidth={1.5} />
+                <CheckSquare size={24} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-feature-title">Final Approval</div>
               <div className="lp-feature-desc">
@@ -145,7 +144,7 @@ export default function LandingPage() {
             </div>
             <div className="lp-feature-card">
               <div className="lp-feature-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <BarChart2 size={24} color="#B91C1C" strokeWidth={1.5} />
+                <BarChart2 size={24} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-feature-title">Status Tracker</div>
               <div className="lp-feature-desc">
@@ -161,13 +160,13 @@ export default function LandingPage() {
         <div className="lp-section-inner">
           <div className="lp-section-label">How It Works</div>
           <h2 className="lp-section-title">From AI generation to published post</h2>
-          <p className="lp-section-sub" style={{ color: '#B91C1C' }}>Five agents, one review gate, one seamless pipeline.</p>
+          <p className="lp-section-sub" style={{ color: '#2B3CE3' }}>Five agents, one review gate, one seamless pipeline.</p>
 
           <div className="lp-steps-grid">
             <div className="lp-step-card">
               <div className="lp-step-num">Step 01</div>
               <div className="lp-step-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Bot size={28} color="#B91C1C" strokeWidth={1.5} />
+                <Bot size={28} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-step-title">AI Generates</div>
               <div className="lp-step-desc">5 agents process raw inputs into platform-native drafts in seconds.</div>
@@ -175,7 +174,7 @@ export default function LandingPage() {
             <div className="lp-step-card">
               <div className="lp-step-num">Step 02</div>
               <div className="lp-step-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Eye size={28} color="#B91C1C" strokeWidth={1.5} />
+                <Eye size={28} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-step-title">You Review</div>
               <div className="lp-step-desc">You approve or reject with written feedback that feeds back to the AI.</div>
@@ -183,7 +182,7 @@ export default function LandingPage() {
             <div className="lp-step-card">
               <div className="lp-step-num">Step 03</div>
               <div className="lp-step-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Trophy size={28} color="#B91C1C" strokeWidth={1.5} />
+                <Trophy size={28} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-step-title">You Decide</div>
               <div className="lp-step-desc">You approve or reject. Rejections trigger another AI revision cycle.</div>
@@ -191,7 +190,7 @@ export default function LandingPage() {
             <div className="lp-step-card">
               <div className="lp-step-num">Step 04</div>
               <div className="lp-step-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Rocket size={28} color="#B91C1C" strokeWidth={1.5} />
+                <Rocket size={28} color="#2B3CE3" strokeWidth={1.5} />
               </div>
               <div className="lp-step-title">Postiz Posts</div>
               <div className="lp-step-desc">Approved content is automatically sent to Postiz for optimal-time publishing.</div>
@@ -209,36 +208,36 @@ export default function LandingPage() {
           <div className="lp-dark-right">
             <h2 className="lp-dark-title">Your Pipeline, Your Control</h2>
             <p className="lp-dark-sub">
-              <span style={{ color: '#B91C1C', fontStyle: 'italic' }}>Every piece of content is gated behind human review.</span><br /><br />
+              <span style={{ color: '#2B3CE3', fontStyle: 'italic' }}>Every piece of content is gated behind human review.</span><br /><br />
               Nothing reaches your audience without explicit approval from your team.
             </p>
 
             <div className="lp-dark-grid">
               <div className="lp-dark-card">
                 <span className="lp-dark-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Shield size={24} color="#fff" strokeWidth={1.5} />
+                  <Shield size={24} color="#111827" strokeWidth={1.5} />
                 </span>
                 <div>
                   <div className="lp-dark-card-label">Role-Based Access</div>
-                  <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>Access only what you need</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-tertiary)', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>Access only what you need</div>
                 </div>
               </div>
               <div className="lp-dark-card">
                 <span className="lp-dark-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <RefreshCw size={24} color="#fff" strokeWidth={1.5} />
+                  <RefreshCw size={24} color="#111827" strokeWidth={1.5} />
                 </span>
                 <div>
                   <div className="lp-dark-card-label">Feedback Loops</div>
-                  <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>Every rejection goes back to the AI agents</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-tertiary)', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>Every rejection goes back to the AI agents</div>
                 </div>
               </div>
               <div className="lp-dark-card">
                 <span className="lp-dark-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Radio size={24} color="#fff" strokeWidth={1.5} />
+                  <Radio size={24} color="#111827" strokeWidth={1.5} />
                 </span>
                 <div>
                   <div className="lp-dark-card-label">Real-time Sync</div>
-                  <div style={{ fontSize: 13, color: '#9ca3af', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>30-second polling keeps all views fresh</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-tertiary)', marginTop: 4, fontFamily: 'ui-serif, Georgia, serif' }}>30-second polling keeps all views fresh</div>
                 </div>
               </div>
             </div>
@@ -263,9 +262,8 @@ export default function LandingPage() {
       {/* ── FOOTER ── */}
       <footer className="lp-footer">
         <div className="lp-footer-inner">
-          <Link href="/" className="lp-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '4px', height: '20px', backgroundColor: '#B91C1C' }}></div>
-            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '2px', color: '#111', margin: 0, lineHeight: 1 }}>VANCO</span>
+          <Link href="/" className="lp-logo" style={{ textDecoration: 'none' }}>
+            <img src="/bleukei-logo-dark.png" alt="bleukei" style={{ height: 48, objectFit: 'contain' }} />
           </Link>
 
           <ul className="lp-footer-links">

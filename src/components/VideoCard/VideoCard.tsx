@@ -139,7 +139,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
         {/* Previous feedback shown */}
         {draft.noaPromptFeedback && (
           <div style={{ padding: '0 18px 12px' }}>
-            <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#991b1b' }}>
+            <div style={{ background: '#3f1111', border: '1px solid #7f1d1d', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#fca5a5' }}>
               <strong style={{ display: 'block', marginBottom: 4, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 Previous prompt feedback
               </strong>
@@ -149,7 +149,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
         )}
         {draft.noaVideoFeedback && (
           <div style={{ padding: '0 18px 12px' }}>
-            <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#991b1b' }}>
+            <div style={{ background: '#3f1111', border: '1px solid #7f1d1d', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#fca5a5' }}>
               <strong style={{ display: 'block', marginBottom: 4, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 Previous video feedback
               </strong>
@@ -177,11 +177,11 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   { label: 'Agent 3 — Higgsfield Prompt', value: draft.agent3Output },
                   { label: 'Agent 4 — Brand Check', value: draft.agent4Output },
                 ].filter(a => a.value).map(a => (
-                  <div key={a.label} style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 14px' }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.3px', color: '#6b7280', marginBottom: 6 }}>
+                  <div key={a.label} style={{ background: '#141414', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.3px', color: 'var(--text-secondary)', marginBottom: 6 }}>
                       {a.label}
                     </div>
-                    <div style={{ fontSize: 13, color: '#374151', whiteSpace: 'pre-wrap', maxHeight: 120, overflowY: 'auto' }}>
+                    <div style={{ fontSize: 13, color: 'var(--text-primary)', whiteSpace: 'pre-wrap', maxHeight: 120, overflowY: 'auto' }}>
                       {a.value}
                     </div>
                   </div>
@@ -203,7 +203,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   onClick={() => setRejectOpen(true)}
                   style={{
                     flex: 1, padding: '9px', borderRadius: 10,
-                    border: '1px solid #e5e5e5', background: '#fafafa',
+                    border: '1px solid #e5e5e5', background: '#111111',
                     fontSize: 13, fontWeight: 500, color: '#555',
                     cursor: 'pointer', transition: 'all 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
@@ -259,7 +259,7 @@ export default function VideoCard({ draft, mode, onApprove, onReject, onComment,
                   onClick={() => setRejectOpen(true)}
                   style={{
                     flex: 1, padding: '9px', borderRadius: 10,
-                    border: '1px solid #e5e5e5', background: '#fafafa',
+                    border: '1px solid #e5e5e5', background: '#111111',
                     fontSize: 13, fontWeight: 500, color: '#555',
                     cursor: 'pointer', transition: 'all 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,

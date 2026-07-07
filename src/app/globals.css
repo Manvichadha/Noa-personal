@@ -6,49 +6,49 @@
    ============================================================ */
 :root {
   /* Backgrounds */
-  --bg-app: #f5f5f7;
-  --bg-card: #ffffff;
-  --bg-sidebar: #ffffff;
-  --bg-sidebar-hover: #f5f7fa;
-  --bg-input: #f9fafb;
+  --bg-app: #000000;
+  --bg-card: #0a0a0a;
+  --bg-sidebar: #050505;
+  --bg-sidebar-hover: #111111;
+  --bg-input: #141414;
 
   /* Brand Accents */
-  --accent-purple: #7c3aed;
-  --accent-purple-light: #ede9fe;
-  --accent-purple-hover: #6d28d9;
+  --accent-purple: #2B3CE3;
+  --accent-purple-light: #161e72;
+  --accent-purple-hover: #2230b6;
   --accent-amber: #f59e0b;
-  --accent-amber-light: #fef3c7;
+  --accent-amber-light: #452a03;
 
   /* Status colours */
-  --status-pending-noa-bg: #fef2f2;
-  --status-pending-noa-text: #991b1b;
-  --status-pending-founders-bg: #dbeafe;
-  --status-pending-founders-text: #1e40af;
-  --status-approved-bg: #d1fae5;
-  --status-approved-text: #065f46;
-  --status-rejected-bg: #fee2e2;
-  --status-rejected-text: #991b1b;
-  --status-generating-bg: #ede9fe;
-  --status-generating-text: #5b21b6;
-  --status-revision-bg: #fce7f3;
-  --status-revision-text: #9d174d;
-  --status-posted-bg: #ccfbf1;
-  --status-posted-text: #134e4a;
+  --status-pending-noa-bg: #450a0a;
+  --status-pending-noa-text: #fecaca;
+  --status-pending-founders-bg: #1e3a8a;
+  --status-pending-founders-text: #bfdbfe;
+  --status-approved-bg: #064e3b;
+  --status-approved-text: #a7f3d0;
+  --status-rejected-bg: #450a0a;
+  --status-rejected-text: #fecaca;
+  --status-generating-bg: #1e1b4b;
+  --status-generating-text: #c4b5fd;
+  --status-revision-bg: #4c0519;
+  --status-revision-text: #fbcfe8;
+  --status-posted-bg: #042f2e;
+  --status-posted-text: #99f6e4;
 
   /* Text */
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-tertiary: #9ca3af;
-  --text-inverse: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #52525b;
+  --text-inverse: #000000;
 
   /* Borders */
-  --border: #e5e7eb;
-  --border-focus: #7c3aed;
+  --border: #27272a;
+  --border-focus: #2B3CE3;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.6);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.9), 0 2px 4px -1px rgba(0,0,0,0.8);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.95), 0 4px 6px -2px rgba(0,0,0,0.8);
 
   /* Spacing */
   --sidebar-width: 80px;
@@ -673,7 +673,7 @@ a {
 }
 .form-textarea:focus {
   border-color: var(--border-focus);
-  background: #fff;
+  background: var(--bg-app);
 }
 
 /* ============================================================
@@ -982,9 +982,9 @@ a {
 }
 
 .sidebar-item.active {
-  background: #B91C1C;
+  background: #2B3CE3;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
+  box-shadow: 0 4px 12px rgba(43, 60, 227, 0.3);
 }
 
 .sidebar-badge {
@@ -1295,21 +1295,21 @@ a {
 
 .pill-toggle.active {
   background: var(--text-primary);
-  color: #fff;
+  color: var(--text-inverse);
 }
 
 .pill-count {
   font-size: 11px;
   font-weight: 700;
-  background: rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.1);
   color: var(--text-secondary);
   padding: 2px 6px;
   border-radius: 10px;
 }
 
 .pill-toggle.active .pill-count {
-  background: rgba(255,255,255,0.2);
-  color: #fff;
+  background: rgba(0,0,0,0.15);
+  color: var(--text-inverse);
 }
 
 /* ============================================================
