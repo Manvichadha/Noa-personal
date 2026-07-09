@@ -17,7 +17,7 @@ export default function GenerateContent() {
   const [videoUrlText, setVideoUrlText] = useState('');
   const [videoPromptText, setVideoPromptText] = useState('');
 
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -47,14 +47,20 @@ export default function GenerateContent() {
     e.preventDefault();
     setIsDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      if (type === 'document') setFile(e.dataTransfer.files[0]);
+      if (type === 'document') {
+        const dropped = Array.from(e.dataTransfer.files);
+        setFiles(prev => {
+          const existing = new Set(prev.map(f => f.name + f.size));
+          return [...prev, ...dropped.filter(f => !existing.has(f.name + f.size))];
+        });
+      }
       if (type === 'video') setVideoFile(e.dataTransfer.files[0]);
     }
   };
 
   const handleSubmit = async () => {
     if (activeTab === 'idea' && !ideaText.trim()) return addToast('error', 'Please enter an idea.');
-    if (activeTab === 'file' && !file) return addToast('error', 'Please upload a file.');
+    if (activeTab === 'file' && files.length === 0) return addToast('error', 'Please upload at least one file.');
     if (activeTab === 'url' && !urlText.trim()) return addToast('error', 'Please enter a URL.');
     if (activeTab === 'video' && !videoFile && !videoUrlText.trim()) return addToast('error', 'Please upload a video or paste a URL.');
     if (activeTab === 'video' && !videoPromptText.trim()) return addToast('error', 'Please provide a prompt for the video (e.g. transcript or summary).');
@@ -67,8 +73,8 @@ export default function GenerateContent() {
       if (activeTab === 'idea') formData.append('inputContent', ideaText);
       if (activeTab === 'url') formData.append('inputContent', urlText);
       if (activeTab === 'file') {
-        formData.append('file', file as Blob);
-        formData.append('inputContent', (file as File).name);
+        files.forEach(f => formData.append('file', f as Blob));
+        formData.append('inputContent', files.map(f => f.name).join(', '));
       }
       if (activeTab === 'video') {
         if (videoFile) {
@@ -94,7 +100,7 @@ export default function GenerateContent() {
       setUrlText('');
       setVideoUrlText('');
       setVideoPromptText('');
-      setFile(null);
+      setFiles([]);
       setVideoFile(null);
 
     } catch {
@@ -181,7 +187,7 @@ export default function GenerateContent() {
                 style={{
                   border: isDragOver ? '2px dashed var(--text-primary)' : '2px dashed #d1d5db',
                   borderRadius: 14,
-                  padding: '56px 20px',
+                  padding: files.length > 0 ? '32px 20px 24px' : '56px 20px',
                   textAlign: 'center',
                   background: isDragOver ? 'var(--bg-sidebar-hover)' : 'var(--bg-input)',
                   cursor: 'pointer',
@@ -193,21 +199,86 @@ export default function GenerateContent() {
                   type="file"
                   id="file-upload"
                   accept=".pdf,.txt,.md,.csv,.xlsx,.xls"
+                  multiple
                   style={{ display: 'none' }}
                   onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) setFile(e.target.files[0]);
+                    if (e.target.files && e.target.files.length > 0) {
+                      const selected = Array.from(e.target.files);
+                      setFiles(prev => {
+                        const existing = new Set(prev.map(f => f.name + f.size));
+                        return [...prev, ...selected.filter(f => !existing.has(f.name + f.size))];
+                      });
+                      // Reset input so same file can be re-added after removal
+                      e.target.value = '';
+                    }
                   }}
                 />
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
                   <UploadIcon />
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>
-                  {file ? file.name : 'Click or drag file to this area'}
+                  {files.length === 0 ? 'Click or drag files to this area' : 'Add more files'}
                 </div>
                 <div style={{ fontSize: 12.5, color: 'var(--text-tertiary)', marginTop: 8 }}>
-                  PDF, TXT, MD, CSV, XLSX, XLS
+                  PDF, TXT, MD, CSV, XLSX, XLS &mdash; multiple files supported
                 </div>
               </div>
+
+              {/* Uploaded files list */}
+              {files.length > 0 && (
+                <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {files.map((f, idx) => (
+                    <div
+                      key={f.name + f.size + idx}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '5px 10px 5px 12px',
+                        background: 'var(--bg-card)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 999,
+                        fontSize: 12.5,
+                        fontWeight: 500,
+                        color: 'var(--text-primary)',
+                        maxWidth: 260,
+                      }}
+                    >
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {f.name}
+                      </span>
+                      <span style={{ fontSize: 11, color: 'var(--text-tertiary)', flexShrink: 0 }}>
+                        ({(f.size / 1024).toFixed(0)} KB)
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFiles(prev => prev.filter((_, i) => i !== idx));
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 16,
+                          height: 16,
+                          borderRadius: '50%',
+                          background: 'var(--text-tertiary)',
+                          color: '#fff',
+                          fontSize: 10,
+                          fontWeight: 700,
+                          border: 'none',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          lineHeight: 1,
+                        }}
+                        title={`Remove ${f.name}`}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
