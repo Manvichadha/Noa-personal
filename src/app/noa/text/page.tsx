@@ -13,7 +13,7 @@ const fetcher = (url: string) => fetch(url).then(r => r.json());
 
 function generateId() { return Math.random().toString(36).slice(2); }
 
-const N8N_NOA_REVIEW_WEBHOOK = process.env.NEXT_PUBLIC_N8N_NOA_REVIEW_WEBHOOK || "https://aorta-refueling-multiply.ngrok-free.dev/webhook/noa_personal";
+const N8N_NOA_REVIEW_WEBHOOK = process.env.NEXT_PUBLIC_N8N_NOA_REVIEW_WEBHOOK || "https://n8n.bleukei.com/webhook/noa_personal";
 
 async function handleNoaDecision(draft: any, decision: string, feedback: string = "") {
   try {

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     // Append the jobId so n8n knows exactly which document to update at the end of the pipeline
     formData.append('jobId', jobId);
 
-    const webhookUrl = process.env.N8N_GENERATE_WEBHOOK || "https://aorta-refueling-multiply.ngrok-free.dev/webhook/manual-content";
+    const webhookUrl = process.env.N8N_GENERATE_WEBHOOK || "https://n8n.bleukei.com/webhook/manual-content";
 
     // Forward the formData exactly as received (preserves binary files)
     const n8nResponse = await fetch(webhookUrl, {
